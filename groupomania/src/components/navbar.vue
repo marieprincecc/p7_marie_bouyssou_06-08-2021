@@ -1,6 +1,10 @@
 <template>
-<nav class="col navbar navbar-expand-md navbar-warning">
-  <router-link class="navbar-brand text-left text-sm-left" to="/accueil"><img src="../assets/icon-left-font-monochrome-white.svg" alt="logo groupomannia"/></router-link>
+<div class="bg-warning mb-3 md-mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <nav class="col navbar navbar-expand-md navbar-dark">
+                    <router-link class="navbar-brand text-left text-sm-left" to="/accueil"><img src="../assets/icon-left-font-monochrome-white.svg" alt="logo groupomannia"/></router-link>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -18,6 +22,11 @@
                             </ul>
                         </div>
                     </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+                
 </template>
 
 <script>
