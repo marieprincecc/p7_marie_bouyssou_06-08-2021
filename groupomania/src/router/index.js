@@ -5,7 +5,7 @@ import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
 import createposte from '../views/createposte.vue';
-import modifyprofil from '../views/modifyprofil.vue';
+
 
 
 
@@ -47,11 +47,6 @@ const routes = [
         component: profil
     },
 
-    {
-        name:'modifyprofil',
-        path: '/profil',
-        component: modifyprofil
-    }
 ];
 
 const router = createRouter({
