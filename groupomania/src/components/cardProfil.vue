@@ -4,6 +4,12 @@
           <div class="col md-p-5">
               <h1>Nom prenom</h1>
           </div>
+          <div class="row">
+            <div class="col">
+              <button class="btn" id="delete">Supprimer mon compte</button>
+            </div>
+
+          </div>
           
       </div>
 
@@ -31,6 +37,10 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 30%;
+  }
+  #delete {
+    background-color: transparent;
+    
   }
 </style>
 

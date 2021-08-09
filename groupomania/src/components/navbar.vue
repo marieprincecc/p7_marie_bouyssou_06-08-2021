@@ -1,9 +1,9 @@
 <template>
-<div class="bg-warning mb-3 md-mb-5">
+<div class="mb-3 md-mb-5" id="navbar">
     <div class="container">
         <div class="row">
             <div class="col">
-                <nav class="col navbar navbar-expand-md navbar-dark">
+                <nav class="col navbar navbar-expand-md navbar-light">
                     <router-link class="navbar-brand text-left text-sm-left" to="/accueil"><img src="../assets/icon-left-font-monochrome-white.svg" alt="logo groupomannia"/></router-link>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                             <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,7 @@
                                     <router-link class="nav-link" to="/profil/:id">Profil</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link" to="/poste">Nouvelle publication</router-link>
+                                    <router-link class="nav-link" to="/poste">Nouvelle publication</router-link> 
                                 </li>
                             </ul>
                         </div>
@@ -34,4 +34,7 @@ export default {};
 </script>
 
 <style>
+#navbar{
+    background-color: var( --bs-orange);
+}
 </style>

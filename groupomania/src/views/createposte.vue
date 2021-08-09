@@ -9,7 +9,11 @@
   <div class="mb-3 md-mb-5">
     <textarea class="form-control" id="publication" rows="3" placeholder="Votre texte ici"></textarea>
   </div>
-  <button type="submit" class="btn btn-warning mb-3 text-white ">Publier</button>
+  <div class="row align-items-center">
+        <div class="col">
+  <button type="submit" class="btn mb-3 w-25 ">Publier</button>
+        </div>
+  </div>
   </form>
   </div>
 </template>
@@ -25,5 +29,8 @@ components:{
 </script>
 
 <style>
+.btn{
+ background-color: var( --bs-orange)
+}
 
 </style>
