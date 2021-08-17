@@ -4,6 +4,10 @@ const helmet = require('helmet')        //importation helmet securité
 const path = require('path')
 const mysql = require('mysql')
 const app = express()    //const app utilisant express
+const appRouter = require('./appRouter').router
+//body-parser config
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
 require('dotenv').config({ path: './variables.env' })
 
 const db = mysql.createConnection({
@@ -17,8 +21,10 @@ const db = mysql.createConnection({
   });
 
   db.connect(function(err) {
-    if (err) throw err;
-    console.log("Connecté à la base de données MySQL!");
+    if (err){ throw err}else
+    {console.log("Connecté à la base de données MySQL!")};
   });
+
+  app.use('/api/',appRouter)
 
   module.exports = app;
