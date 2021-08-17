@@ -93,3 +93,14 @@ exports.getOneProfil = (req, res, next) => {
       .then(User => res.status(200).json(User))
       .catch(error => res.status(404).json({ error }))
   };
+
+  exports.deleteUser= (req, res, next) =>{
+    User.findOne({where:{id:req.params.id}})                   //recuperation User avec id
+    .then(User => {
+      User.deleteOne({where:{id:req.params.id}})                   //suppression du User
+        .then(() => res.status(200).json({message:'User supprimé!'}))
+        .catch( error => res.status(400).json({error}));
+      })
+  
+    .catch(error => res.status(500).json({ error }));
+};
