@@ -20,10 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Publication.init({
-    idUSER: DataTypes.INTEGER,
     title: DataTypes.STRING,
     texte: DataTypes.STRING,
-    media: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Publication',

@@ -53,7 +53,7 @@ exports.register = (req,res) => {
         .catch(function(err) {
             return res.status(500).json({ 'error': 'unable to verify user' });
         });
-}
+};
 
 exports.login = (req,res) => {
       
@@ -95,7 +95,7 @@ exports.getOneProfil = (req, res, next) => {
   };
 
   exports.deleteUser= (req, res, next) =>{
-    User.findOne({where:{id:req.params.id}})                   //recuperation User avec id
+    models.User.findOne({where:{id:req.params.id}})                   //recuperation User avec id
     .then(User => {
       User.deleteOne({where:{id:req.params.id}})                   //suppression du User
         .then(() => res.status(200).json({message:'User supprimé!'}))

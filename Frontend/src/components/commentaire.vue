@@ -12,9 +12,11 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-            <button class="btn me-3 w-25" type="button" data-bs-toggle="collapse" data-bs-target="#modifCommentaire" aria-expanded="false" aria-controls="modifCommentaire">
+            <router-link to='/poste/:id/commentaire/:id'>
+                <button class="btn me-3 w-25" type="button" data-bs-toggle="collapse" data-bs-target="#modifCommentaire" aria-expanded="false" aria-controls="modifCommentaire">
             Modifier
             </button>
+            </router-link>
         </div>
     </div>
     <div class="collapse" id="modifCommentaire">

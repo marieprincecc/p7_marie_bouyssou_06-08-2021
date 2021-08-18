@@ -24,8 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Commentaire.init({
-    idUSER: DataTypes.INTEGER,
-    idPublication: DataTypes.INTEGER,
     content: DataTypes.STRING
   }, {
     sequelize,

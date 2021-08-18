@@ -47,6 +47,12 @@ const routes = [
         component: profil
     },
 
+    {
+        name:'commentaire',
+        path: '/poste/:id/commentaire/:id',
+        component: poste  
+    }
+
 ];
 
 const router = createRouter({

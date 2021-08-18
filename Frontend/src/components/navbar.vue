@@ -5,13 +5,13 @@
             <div class="col">
                 <nav class="col navbar navbar-expand-md navbar-light">
                     <router-link class="navbar-brand text-left text-sm-left" to="/accueil"><img src="../assets/icon-left-font-monochrome-white.svg" alt="logo groupomannia"/></router-link>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-expanded="false" aria-controls="navbarContent">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div id="navbarContent" class="collapse navbar-collapse ">
+                        <div class="collapse navbar-collapse" id="navbarContent">
                             <ul class="navbar-nav ">
                                 <li class="nav-item">
-                                    <router-link class="nav-link" to="/accueil">Acceuil</router-link>
+                                    <router-link class="nav-link" to="/accueil">Accueil</router-link>
                                 </li>
                                 <li class="nav-item">
                                     <router-link class="nav-link" to="/profil/:id">Profil</router-link>

@@ -5,11 +5,6 @@
     <label for="titre" class="form-label">Titre</label>
     <input type="text" class="form-control" id="titre">
   </div>
-  <div class="form-group">
-    <input type="file" accept="image/*" :ref(change)="onFileAdded($event)">
-    <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
-    <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px">
-  </div>
   <div class="mb-3 md-mb-5">
     <textarea class="form-control" id="publication" rows="3" placeholder="Votre texte ici"></textarea>
   </div>
