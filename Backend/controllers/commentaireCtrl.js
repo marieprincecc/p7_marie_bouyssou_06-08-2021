@@ -1,51 +1,85 @@
 const models = require('../models');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: '../variables.env' });
+const tokenKey = process.env.SECRET_KEY;
 
 const regex = /^([A-Za-z0-9\s.])*$/ 
 
 exports.createCommentaire = (req,res,next) =>{
-  //recup params
-  let idUSER = req.body.idUSER
-  let idPublication = req.body.idPublication
-  let content = req.body.content
+  const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
+  const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
+  const idUSER = decodedToken.idUSER;
+    let content = req.body.content
 
-  if (content == null) {
-    return res.status(400).json({'error': 'entrer du texte'});
-  };
-  if (!regex.test(content)) {
-    return res.status(400).json({error});
+  
+    models.Publication.findOne({
+      where: { id: req.params.id }
+    })
+    .then((Publication) =>{
+      models.Commentaire.create({
+        content  : content,
+        PublicationId: Publication.id,
+        UserId : idUSER
+      })
+      .then((Commentaire) =>
+        res.status(201).json(Commentaire))
+      
+      .catch(error => res.status(400).json({ error }))
+    })
+    .catch(() =>{
+       res.status(500).json({ 'error': 'Publication introuvable' });
+   
+    
+    })
   }
-  models.commentaire.create({
-    idUSER : idUSER,
-    idPublication: idPublication,
-    content : content
-  })
-    .then(() => res.status(201).json({ message: 'Nouveau commentaire enregistré !'}))
-    .catch(error => res.status(400).json({ error }));
-};
+   
+  
+  
+  
+ 
+  
 
 exports.modifyCommentaire = (req,res,next)=>{
-  models.commentaire.findOne({where:{id:req.params.id}})                   //recuperation publication avec id
-    .then(commentaire =>
-       commentaire.updateOne({where:{id:req.params.id}}, { ...req.body, where:{id:req.params.id}})
-        .then(() => res.status(200).json({message:'sauce modifiee'}))
-        .catch( error => res.status(400).json({error}))
-    )
-    .catch(error => res.status(404).json({ error }))
-};
+// Params
+  let content = req.body.content;
+  models.Commentaire.findOne({
+    attributes: ['id', 'content'],
+    where: { id: req.params.id }
+  })
+  .then((Commentaire) =>{
+    Commentaire.update({
+      content: (content ? content : Commentaire.content)
+    })
+      .then(()=> res.status(201).json(Commentaire))
+      .catch((error)=> res.status(400).json({error}))
+  })
+  .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
+}
 
 exports.getAllCommentaire = (req,res,next)=>{
-  models.commentaire.find()                   //recuperation commentaire avec id
-    .then(commentaires => res.status(200).json(commentaires))
-    .catch(error => res.status(404).json({ error }))
-};
+  models.Commentaire.findAll({
+      include:[{
+        model: models.User,
+        attributes: ['firstname', 'lastname']
+      }
+      ]
+    })                   
+   
+      .then(commentaires => res.status(200).json(commentaires))
+      .catch(error => res.status(404).json({ error }))
+  };
+ 
 
 exports.deleteCommentaire = (req, res, next) =>{
-  models.commentaire.findOne({where:{id:req.params.id}})                   //recuperation commentaire avec id
-    .then(commentaire => {
-      commentaire.deleteOne({where:{id:req.params.id}})                   //suppression du commentaire
-        .then(() => res.status(200).json({message:'commentaire supprimé!'}))
-        .catch( error => res.status(400).json({error}));
-    })
-    .catch(error => res.status(500).json({ error }));
+  models.Commentaire.findOne({
+    where: { id: req.params.id }
+  })
+  .then((Commentaire) =>{
+    Commentaire.destroy({ id: req.params.id })
+      .then(()=> res.status(201).json({message:'commentaire supprimé'}))
+      .catch((error)=> res.status(400).json({error}))
+  })
+  .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
+  
 };
   

@@ -19,8 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       models.Commentaire.belongsTo(models.Publication,{
         foreignKey:{
           allowNull: false
-        }
+        },
+        
+      
+        
       })
+      models.Commentaire.hasMany(models.Publication, { onDelete: 'cascade',hooks: true})
     }
   };
   Commentaire.init({
@@ -28,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Commentaire',
+    
   });
+  
   return Commentaire;
 };

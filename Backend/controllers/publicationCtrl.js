@@ -1,52 +1,73 @@
 const models = require('../models');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: '../variables.env' });
+const tokenKey = process.env.SECRET_KEY;
+
 
 const regex = /^([A-Za-z0-9\s.])*$/ 
 
 exports.createPublication = (req,res,next) =>{
+  const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
+  const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
+  const userId = decodedToken.idUSER;
 
-  //recup params
-  let idUSER = req.body.idUSER
   let title = req.body.title
   let texte = req.body.texte
-  let media = req.body.media
 
-  if (title == null || texte == null || idUSER == null ) {
-    return res.status(400).json({'error': 'incomplet'});
-  }
-  if (!regex.test(title) ||!regex.test(texte)  ) {
-    return res.status(400).json({error});
-  }
+  models.User.findOne({
+    where: { id: userId }
+  })
+  .then((User) =>{
     models.Publication.create({
-      idUSER : User.idUSER,
-      title : title,
-      texte : texte,
-      media : media
+      title  : title,
+      texte: texte,
+      UserId : User.id
     })
-      .then(() => res.status(201).json({ message: 'Nouvelle publication enregistrée !'}))
-      .catch(error => res.status(400).json({ error }));
-};
+    .then((publication) =>
+      res.status(201).json(publication))
+    
+    .catch(error => res.status(400).json({ error }))
+  })
+  .catch(() =>{
+     res.status(500).json({ 'error': 'unable to verify user' });
+ 
+  
+  })
+}
+
 
 exports.getOnePublication = (req,res,next)=>{
-  models.publication.findOne({where:{id:req.params.id}})                   //recuperation publication avec id
+  models.Publication.findOne({where:{id:req.params.id}})                   //recuperation publication avec id
     .then(publication => res.status(200).json(publication))
     .catch(error => res.status(404).json({ error }))
 };
 
 exports.getAllPublication = (req,res,next)=>{
-  let fields = req.query.fields
-  let limits = 
-  models.publication.find()                   //recuperation publication avec id
+ 
+  let order = req.query.order
+
+  models.Publication.findAll({
+    order: [(order!=null)?order.split(':'):['title','ASC']],
+    include:[{
+      model: models.User,
+      attributes: ['firstname', 'lastname']
+    }]
+  })                   //recuperation publication avec id
+ 
     .then(publications => res.status(200).json(publications))
     .catch(error => res.status(404).json({ error }))
 };
 
 exports.deletePublication = (req, res, next) =>{
-  models.publication.findOne({where:{id:req.params.id}})                   //recuperation publication avec id
-    .then(publication => {
-      publication.deleteOne({where:{id:req.params.id}})                   //suppression de la publication
-        .then(() => res.status(200).json({message:'publication supprimé!'}))
-        .catch( error => res.status(400).json({error}));
-    })
-  .catch(error => res.status(500).json({ error }));
+  models.Publication.findOne({
+    where: { id: req.params.id }
+  })
+  .then((Publication) =>{
+    Publication.destroy({ id: req.params.id })
+      .then(()=> res.status(201).json({message:'Publication supprimé'}))
+      .catch((error)=> res.status(400).json({error}))
+  })
+  .catch(()=> res.status(500).json({ 'error': 'Publication introuvable' }))
+  
 };
   

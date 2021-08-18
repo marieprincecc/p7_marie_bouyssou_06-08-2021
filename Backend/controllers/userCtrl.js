@@ -95,12 +95,13 @@ exports.getOneProfil = (req, res, next) => {
   };
 
   exports.deleteUser= (req, res, next) =>{
-    models.User.findOne({where:{id:req.params.id}})                   //recuperation User avec id
-    .then(User => {
-      User.deleteOne({where:{id:req.params.id}})                   //suppression du User
-        .then(() => res.status(200).json({message:'User supprimé!'}))
-        .catch( error => res.status(400).json({error}));
+    models.User.findOne({
+        where: { id: req.params.id }
       })
-  
-    .catch(error => res.status(500).json({ error }));
+      .then((User) =>{
+        User.destroy({ id: req.params.id })
+          .then(()=> res.status(201).json({message:'User supprimé'}))
+          .catch((error)=> res.status(400).json({error}))
+      })
+      .catch(()=> res.status(500).json({ 'error': 'User introuvable' }))
 };

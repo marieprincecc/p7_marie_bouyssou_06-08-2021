@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Publication extends Model {
+  class Publication extends Model { 
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,8 +16,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       }),
+      models.Publication.belongsTo(models.Commentaire);
       models.Publication.hasMany(models.Commentaire)
-    }
+        models.Publication.hasMany(models.User, { onDelete: 'cascade', hooks: true })
+      }
+    
   };
   Publication.init({
     title: DataTypes.STRING,
@@ -25,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Publication',
+   
   });
+ 
   return Publication;
 };

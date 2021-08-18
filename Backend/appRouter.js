@@ -10,20 +10,20 @@ exports.router = (function(){
     const appRouter = express.Router();
 
     //users routes
-    appRouter.route('/profil/:id').get(authentification.decoderToken,userCtrl.getOneProfil);
+    appRouter.route('/profil/:id').get(userCtrl.getOneProfil);
     appRouter.route('/').post(userCtrl.register);
     appRouter.route('/connexion').post(userCtrl.login);
-    appRouter.route('/profil/:id').delete(authentification.decoderToken,userCtrl.deleteUser);
+    appRouter.route('/profil/:id/delete').delete(userCtrl.deleteUser);  //pas ok
     //publications routes
     appRouter.route('/accueil').get(publicationCtrl.getAllPublication);
     appRouter.route('/poste/:id').get(publicationCtrl.getOnePublication);
-    appRouter.route('/poste').post(authentification.decoderToken,publicationCtrl.createPublication);
-    appRouter.route('/poste/:id').delete(authentification.decoderToken,publicationCtrl.deletePublication);  
+    appRouter.route('/poste').post(publicationCtrl.createPublication);
+    appRouter.route('/poste/:id/delete').delete(publicationCtrl.deletePublication);  //pas ok
     //commentaires routes
-    appRouter.route('poste/:id').get(commentaireCtrl.getAllCommentaire);
-    appRouter.route('/poste/:id').post(authentification.decoderToken,commentaireCtrl.createCommentaire);
-    appRouter.route('poste/:id/commentaire/:id').put(authentification.decoderToken,commentaireCtrl.modifyCommentaire);
-    appRouter.route('poste/:id').delete(authentification.decoderToken,commentaireCtrl.deleteCommentaire);  
+    appRouter.route('/poste/:id/commentaire').get(commentaireCtrl.getAllCommentaire);
+    appRouter.route('/poste/:id').post(commentaireCtrl.createCommentaire);
+    appRouter.route('/poste/:id/commentaire/:id').put(commentaireCtrl.modifyCommentaire);
+    appRouter.route('/poste/:id/commentaire/:id/delete').delete(commentaireCtrl.deleteCommentaire);  
 
     return appRouter;
 })();
