@@ -16,9 +16,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       }),
-      models.Publication.belongsTo(models.Commentaire);
-      models.Publication.hasMany(models.Commentaire)
-        models.Publication.hasMany(models.User, { onDelete: 'cascade', hooks: true })
+     
+      models.Publication.hasMany(models.Commentaire,
+        {foreignKey:'publicationId'},
+        {onDelete:'CASCADE'})
+        
       }
     
   };

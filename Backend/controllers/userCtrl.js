@@ -89,7 +89,10 @@ exports.login = (req,res) => {
 
 exports.getOneProfil = (req, res, next) => {  
     let idProfil = req.params.id
-    models.User.findOne({ where:{ id: idProfil} })
+    models.User.findOne({ where:{ id: idProfil}, 
+        include:[
+            {model:models.Publication, where:{UserId: idProfil}}
+          ]})
       .then(User => res.status(200).json(User))
       .catch(error => res.status(404).json({ error }))
   };
@@ -99,7 +102,7 @@ exports.getOneProfil = (req, res, next) => {
         where: { id: req.params.id }
       })
       .then((User) =>{
-        User.destroy({ id: req.params.id })
+        User.destroy({ id: req.params.id },{ truncate: true })
           .then(()=> res.status(201).json({message:'User supprimé'}))
           .catch((error)=> res.status(400).json({error}))
       })

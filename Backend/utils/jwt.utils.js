@@ -30,4 +30,25 @@ exports.decoderToken = (req, res, next) => {
           console.log('Requete non authentifiée');
       }
   };
+
+  exports.decoderTokenAdmin = (req, res, next) => {
+  
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, tokenKey);
+        const isAdmin = decodedToken.isAdmin; 
+       
+        if(isAdmin == 0 ){
+            throw 'User ID non non authorisé'; 
+        }
+        else {
+            
+            next(); 
+        }
+    }
+    catch (error) {
+        console.log(error);
+        console.log('Requete non authentifiée');
+    }
+};
   

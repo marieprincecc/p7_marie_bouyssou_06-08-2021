@@ -1,5 +1,6 @@
 const models = require('../models');
 const jwt = require('jsonwebtoken');
+const commentaire = require('../models/commentaire');
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
@@ -37,7 +38,11 @@ exports.createPublication = (req,res,next) =>{
 
 
 exports.getOnePublication = (req,res,next)=>{
-  models.Publication.findOne({where:{id:req.params.id}})                   //recuperation publication avec id
+  models.Publication.findOne({where:{id:req.params.id},
+    
+    include:[
+      {model:models.Commentaire, where:{PublicationId: req.params.id}}
+    ]})                   //recuperation publication avec id
     .then(publication => res.status(200).json(publication))
     .catch(error => res.status(404).json({ error }))
 };
@@ -63,9 +68,10 @@ exports.deletePublication = (req, res, next) =>{
     where: { id: req.params.id }
   })
   .then((Publication) =>{
-    Publication.destroy({ id: req.params.id })
+    Publication.destroy({ id: req.params.id },{ truncate: true })
       .then(()=> res.status(201).json({message:'Publication supprimé'}))
       .catch((error)=> res.status(400).json({error}))
+      
   })
   .catch(()=> res.status(500).json({ 'error': 'Publication introuvable' }))
   
