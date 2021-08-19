@@ -41,7 +41,7 @@ exports.getOnePublication = (req,res,next)=>{
   models.Publication.findOne({where:{id:req.params.id},
     
     include:[
-      {model:models.Commentaire, where:{PublicationId: req.params.id}}
+      {model:models.Commentaire, where:{PublicationId: req.params.id},required:false}
     ]})                   //recuperation publication avec id
     .then(publication => res.status(200).json(publication))
     .catch(error => res.status(404).json({ error }))
@@ -65,7 +65,8 @@ exports.getAllPublication = (req,res,next)=>{
 
 exports.deletePublication = (req, res, next) =>{
   models.Publication.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
+
   })
   .then((Publication) =>{
     Publication.destroy({ id: req.params.id },{ truncate: true })

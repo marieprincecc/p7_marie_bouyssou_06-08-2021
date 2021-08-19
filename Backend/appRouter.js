@@ -1,8 +1,8 @@
 //imports
 const express = require('express')
-const userCtrl = require("./controllers/userCtrl")
-const publicationCtrl = require("./controllers/publicationCtrl")
-const commentaireCtrl = require("./controllers/commentaireCtrl")
+const userCtrl = require('./controllers/userCtrl')
+const publicationCtrl = require('./controllers/publicationCtrl')
+const commentaireCtrl = require('./controllers/commentaireCtrl')
 const authentification = require('./utils/jwt.utils')
 //exports
 

@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       }),
      
       models.Publication.hasMany(models.Commentaire,
-        {foreignKey:'publicationId'},
+        
         {onDelete:'CASCADE'})
         
       }

@@ -91,7 +91,7 @@ exports.getOneProfil = (req, res, next) => {
     let idProfil = req.params.id
     models.User.findOne({ where:{ id: idProfil}, 
         include:[
-            {model:models.Publication, where:{UserId: idProfil}}
+            {model:models.Publication, where:{UserId: idProfil},required:false}
           ]})
       .then(User => res.status(200).json(User))
       .catch(error => res.status(404).json({ error }))

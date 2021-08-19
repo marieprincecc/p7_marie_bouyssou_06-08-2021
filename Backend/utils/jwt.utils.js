@@ -38,7 +38,7 @@ exports.decoderToken = (req, res, next) => {
         const decodedToken = jwt.verify(token, tokenKey);
         const isAdmin = decodedToken.isAdmin; 
        
-        if(isAdmin == 0 ){
+        if( isAdmin ==0){
             throw 'User ID non non authorisé'; 
         }
         else {
