@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid p-5 bg" >
+  <div class="container-fluid p-5 bg" id="profil" >
       <div class="row">
           <div class="col md-p-5">
-              <h1>Nom prenom</h1>
+              <h1>{{profil}} </h1>
           </div>
           <div class="row">
             <div class="col">
@@ -17,9 +17,20 @@
 </template>
 
 <script>
-export default {
 
-}
+export default {};
+
+
+ // data(){
+   // return{profil:null}},
+  
+  //mounted () {
+    //axios
+      //.get('http://localhost:3000/api/profil/:id')
+      //.then(response => (this.profil = response))}
+  
+
+
 </script>
 
 <style>

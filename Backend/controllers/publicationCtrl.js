@@ -41,7 +41,16 @@ exports.getOnePublication = (req,res,next)=>{
   models.Publication.findOne({where:{id:req.params.id},
     
     include:[
-      {model:models.Commentaire, where:{PublicationId: req.params.id},required:false}
+      {model:models.Commentaire, where:{PublicationId: req.params.id},include:[{
+        model: models.User,
+        attributes: ['firstname', 'lastname']
+      }
+      ],required:false},
+      { model: models.User,
+        attributes: ['firstname', 'lastname']}
+  
+    
+    
     ]})                   //recuperation publication avec id
     .then(publication => res.status(200).json(publication))
     .catch(error => res.status(404).json({ error }))

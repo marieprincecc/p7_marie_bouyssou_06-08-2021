@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const models = require('../models');
 const jwtUtils = require('../utils/jwt.utils');
 
+
+
 //regexs
 const EMAIL_REGEX     = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_REGEX  = /^(?=.*\d).{4,8}$/;      
@@ -88,6 +90,7 @@ exports.login = (req,res) => {
 }
 
 exports.getOneProfil = (req, res, next) => {  
+    
     let idProfil = req.params.id
     models.User.findOne({ where:{ id: idProfil}, 
         include:[

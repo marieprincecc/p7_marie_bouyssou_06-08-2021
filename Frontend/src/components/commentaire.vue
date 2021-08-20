@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div class="row ">
+        <div class="row " id="commentaire">
             <div class="col-11">
-                <h5>Qui commente</h5>
+                <h5>{{name}}</h5>
             </div>
             <div class="col">
                 <span class="btn">x</span>
             </div>
         </div>
-        <p>le Commentaire le texte du commentaire qui est plus long</p>
+        <p>{{content}}</p>
     </div>
     <div class="row align-items-center">
         <div class="col">
@@ -35,9 +35,22 @@
 </template>
 
 <script>
-export default {
+export default {};
 
-}
+
+
+   // data(){
+    //return{name:null,
+      // content:null }},
+  
+  //mounted () {
+    //axios
+      //.get('http://localhost:3000/api/poste/:id')
+      //.then(response => (this.name = response.userId.firstname,
+      //this.content = response.content))}
+
+       
+
 </script>
 
 <style>
