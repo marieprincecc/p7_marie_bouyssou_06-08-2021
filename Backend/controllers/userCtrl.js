@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const models = require('../models');
 const jwtUtils = require('../utils/jwt.utils');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: './variables.env' });
+const tokenKey = process.env.SECRET_KEY;
 
 
 
@@ -8,7 +11,7 @@ const jwtUtils = require('../utils/jwt.utils');
 const EMAIL_REGEX     = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_REGEX  = /^(?=.*\d).{4,8}$/;      
 
-exports.register = (req,res) => {
+exports.signup = (req,res,next) => {
 
     //recup params
     let mail = req.body.mail;
@@ -90,11 +93,13 @@ exports.login = (req,res) => {
 }
 
 exports.getOneProfil = (req, res, next) => {  
-    
-    let idProfil = req.params.id
-    models.User.findOne({ where:{ id: idProfil}, 
+    const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
+    const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
+    const userId = decodedToken.idUSER;                       
+    //let idProfil = req.params.id
+    models.User.findOne({ where:{ id: userId}, 
         include:[
-            {model:models.Publication, where:{UserId: idProfil},required:false}
+            {model:models.Publication, where:{UserId: userId},required:false}
           ]})
       .then(User => res.status(200).json(User))
       .catch(error => res.status(404).json({ error }))

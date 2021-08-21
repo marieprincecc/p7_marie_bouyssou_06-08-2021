@@ -6,7 +6,10 @@ const mysql = require('mysql')
 const app = express()    //const app utilisant express
 const appRouter = require('./appRouter').router
 const cors = require('cors')
-
+ //body-parser config
+ app.use(bodyParser.json());     //converti toute les reponse en format utilisable (json)
+ app.use(bodyParser.urlencoded({extended:true}))
+ app.use(helmet());            //inclu directement helmet a l'app
 
 
 require('dotenv').config({ path: './variables.env' })
@@ -33,10 +36,9 @@ const db = mysql.createConnection({
     next();   //toujours next() pour passer au middelware suivant
   });
 
-  //body-parser config
-  app.use(bodyParser.json());     //converti toute les reponse en format utilisable (json)
-  app.use(helmet());            //inclu directement helmet a l'app
+ 
   app.use(cors())
+
   app.use('/api/',appRouter)
   
 

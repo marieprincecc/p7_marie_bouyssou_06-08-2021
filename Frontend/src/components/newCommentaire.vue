@@ -11,8 +11,7 @@
         </div>
     </div>
     <commentaireVue/>
-    <commentaireVue/>
-    <commentaireVue/>
+    
 </div>
 
 </template>

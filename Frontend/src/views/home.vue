@@ -1,56 +1,61 @@
 <template>
   <img alt="Groupomania logo" src="../assets/icon-above-font.png" />
-  <h1>Inscription</h1>
-  <form>
-    <label for="lastname">Nom</label>
-    <br />
-    <input type="text" name="lastname" v-model="lastname" />
-    <br />
-    <label for="firstname">Prénom</label>
-    <br />
-    <input type="text" name="firstname" v-model="firstname" />
-    <br />
-    <label for="mail">Adresse mail</label>
-    <br />
-    <input type="text" name="mail" v-model="mail" />
-    <br />
-    <label for="password">Mot de passe (8-20 caractères)</label>
-    <br />
-    <input type="text" name="password" v-model="password" />
-    <br />
-    <button type="submit" @click="user">Inscription</button>
-  </form>
-  <button><router-link to='/connexion'>J'ai déjà un compte</router-link></button>
+  <h1 v-if="mode=='login'">Connexion</h1>
+  <h1 v-else>Inscription</h1>
+  <div v-if="mode=='login'">
+    <loginForm/>
+  </div>
+  <div v-else>
+    <signupForm/>
+  </div>
+  
+  <button  v-if="mode=='login'" @click="switchInscription">Créer un compte</button>
+  <button @click="switchConnexion" v-else>J'ai déjà un compte</button>
 
 </template>
 
 <script>
+import loginForm from '../components/loginForm.vue'
+import signupForm from '../components/signupForm.vue'
+import{ mapState } from 'vuex'
+
 export default {
-setup() {
-    let firstname = "";
-    let lastname = "";
-    let mail = "";
-    let password = "";
-
-    const user = () => {
-      console.log(
-        "signupLogin | user() | firstname",
-        firstname,
-        lastname,
-        mail,
-        password
-      );
-    };
-
-    return {
-      firstname,
-      lastname,
-      mail,
-      password,
-      user,
-    };
+  name: 'Login',
+data() {
+  return{
+  mode: 'login',
+  lastname:'',
+  firstname:'',
+  mail:'',
+  password:'',
+  token:'',
+  userId:'',
 }
+},
+ 
+computed:{
+ ...mapState([status])
+},
+methods:{
+     switchConnexion(){
+      this.mode = 'login'
+    },
+
+    switchInscription(){
+      this.mode = 'signup'
+    },
+
+   
+},
+components:{
+    signupForm,
+    loginForm,
 }
+} 
+      
+    
+
+
 </script>
 
 <style scoped lang="css">

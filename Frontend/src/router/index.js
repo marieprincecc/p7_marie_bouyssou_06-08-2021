@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import home from'../views/home.vue';
-import connexion from '../views/connexion.vue';
 import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
@@ -13,16 +12,9 @@ import createposte from '../views/createposte.vue';
 const routes = [
     {
         name:'home',
-        path:'/',
+        path:'/signup',
         component: home
     },
-
-    {
-        name:'connexion',
-        path: '/connexion',
-        component: connexion
-    },
-
     {
         name: 'Accueil',
         path: '/accueil',

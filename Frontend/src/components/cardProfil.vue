@@ -2,7 +2,7 @@
   <div class="container-fluid p-5 bg" id="profil" >
       <div class="row">
           <div class="col md-p-5">
-              <h1>{{profil}} </h1>
+              <h1> {{firstname}}  {{lastname}}</h1>
           </div>
           <div class="row">
             <div class="col">
@@ -17,19 +17,21 @@
 </template>
 
 <script>
+import axios from "axios"
+export default {
+    data(){
+    return{
+       firstname: '',
+      lastname:'',
+    }
+    },
+    async created(){
+      this.firstname = (await axios.get('http://localhost:3000/api/profil/:id')).data.firstname
+      this.lastname = (await axios.get('http://localhost:3000/api/profil/:id')).data.lastname
+}
 
-export default {};
-
-
- // data(){
-   // return{profil:null}},
-  
-  //mounted () {
-    //axios
-      //.get('http://localhost:3000/api/profil/:id')
-      //.then(response => (this.profil = response))}
-  
-
+}
+ 
 
 </script>
 
@@ -54,4 +56,3 @@ export default {};
     
   }
 </style>
-

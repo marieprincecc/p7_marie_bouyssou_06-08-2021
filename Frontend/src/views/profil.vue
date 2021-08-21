@@ -17,6 +17,13 @@ components:{
      profilVue,
      publicationVue
 
+     },
+     mounted: ()=>{
+       if (this.$store.state.userId == -1) {
+          this.$router.push('/');
+          return;
+       }
+      this.$store.dispatch('getUserInfo')
      }
 }
 </script>

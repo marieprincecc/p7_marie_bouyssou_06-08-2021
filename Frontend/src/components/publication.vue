@@ -1,4 +1,5 @@
 <template>
+<div :key="data.id" v-for="data in publications">
   <div class="card" >
     <div class="card-header" id="auteur">
     {{firstname}}  {{lastname}}
@@ -8,7 +9,7 @@
         <div class="row">
         <div class="col-11">
         <router-link  to="/poste/:id">
-        {{Titre}}
+        {{data.title}}
         </router-link>
         </div>
         <div class="col">
@@ -16,7 +17,7 @@
             </div>
             </div>
       </h5>
-      <p class="card-text">{{texte}}</p>
+      <p class="card-text">{{data.texte}}</p>
     <div>
     
     J'aime! 
@@ -32,6 +33,7 @@
     </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -42,18 +44,37 @@ name: 'publication',
 
   
      data(){
-    return{auteur: '',
-     titre:'',
-     texte:''
+    return{
+      publications:[],
+      lastname:'',
+      titre:'',
+      texte:'',
+      i:''
       }},    
     
     async created(){
-      this.firstname = (await axios.get('http://localhost:3000/api/accueil')).data[0].User.firstname
-      this.lastname = (await axios.get('http://localhost:3000/api/accueil')).data[0].User.lastname
-      this.titre = (await axios.get('http://localhost:3000/api/accueil')).data[0].title
-      this.texte = (await axios.get('http://localhost:3000/api/accueil')).data[0].texte
+      
+      const data= (await axios.get(('http://localhost:3000/api/accueil')))
+    
+     
+      this.publications = data.data
+      this.title = data.data.title
+      this.texte = data.data.texte
+     
+      
+    
+       
+      
+     
+      
+      
+       console.log(data.data)
+  console.log(this.publications)
+    
       }
-}
+      }
+
+
   
   
 
