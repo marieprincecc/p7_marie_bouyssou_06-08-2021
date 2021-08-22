@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const models = require('../models');
+const User = models.user;
 const jwtUtils = require('../utils/jwt.utils');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
@@ -12,65 +13,61 @@ const EMAIL_REGEX     = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(
 const PASSWORD_REGEX  = /^(?=.*\d).{4,8}$/;      
 
 exports.signup = (req,res,next) => {
-
-    //recup params
-    let mail = req.body.mail;
-    let firstname = req.body.firstname;
-    let lastname = req.body.lastname;
-    let password = req.body.password;
-   
-    if (mail == null || firstname == null || lastname == null || password == null) {
-       return res.status(400).json({'error': 'paramètres manquant'});
-    };
+   console.log('on arrive')
+   console.log(req.body)
+    
 
     //verification des données(regex etc)
-    if (!EMAIL_REGEX.test(mail)) {
-        return res.status(400).json({ 'error': 'email is not valid' });
-    }
+    if (EMAIL_REGEX.test(req.body.mail)) {
+       console.log('mail ok')
+        
+    }else{res.status(400).json({ 'message': 'mail is not valid' });}
 
-    if (!PASSWORD_REGEX.test(password)) {
-        return res.status(400).json({ 'error': 'password invalid (longueur 4 - 8 et doit inclure 1 nombre)' });
-    }
- 
-    models.User.findOne({where:{mail:mail}})
-        .then(User =>{
-            if (User==null) {
+    if (PASSWORD_REGEX.test(req.body.password)) {
+       
+        console.log('password ok')
+    }else{return res.status(400).json({ 'error': 'password invalid (longueur 4 - 8 et doit inclure 1 nombre)' })};
+    
+     //recup params
+     let mail = req.body.mail;
+     let password = req.body.password;
+                
                 bcrypt.hash(password,10)
                     .then(hash => {
-                        const newUser = models.User.create({
-                            mail : mail,
-                            firstname : firstname,
-                            lastname : lastname,
-                            password : hash,
-                            isAdmin : 0
+                        console.log('on est dans le then du hash')
+                        const newUser = {
+                            ...req.body,
+                            password: hash,
+                        };
+                        User.create(newUser)
+                        .then(function() {
+                            res.status(201).json({ message: 'Nouvel utilisateur créé' });
                         })
-                            .then((newUser) => {
-                                return res.status(201).json({'idUSER':newUser.id})
-                            })
-                            .catch(error => res.status(500).json({ error }));
+                            .catch(error => res.status(403).json({ error }));
                     })
 
-                    .catch(error => res.status(500).json({ 'error':'erreur serveur' }))
-            }else {
-                return res.status(409).json({ 'error': 'user already exist' });
+                    .catch(error => {res.status(500).json({ message: 'Erreur lors de la création de compte'})})
             }
-        })
-        .catch(function(err) {
-            return res.status(500).json({ 'error': 'unable to verify user' });
-        });
-};
+        
+        
+
 
 exports.login = (req,res) => {
-      
+    
     //recup params
+    
     let mail = req.body.mail;
     let password = req.body.password;
+    
 
     if (mail == null || password == null){
+       
         return res.status(400).json({'error': 'paramètres manquant'});
-    }
+    } 
     models.User.findOne({where:{mail:mail}})
+   
         .then(User =>{
+           
             if (User) {
                 bcrypt.compare(password,User.password)
                 .then(valid => {
@@ -84,7 +81,7 @@ exports.login = (req,res) => {
                     }
                 })
                 .catch(error => res.status(500).json({ error }));
-            }else{
+            }else{ 
                 return res.status(400).json({error:"utilisateur inconnu"})
             }
         })

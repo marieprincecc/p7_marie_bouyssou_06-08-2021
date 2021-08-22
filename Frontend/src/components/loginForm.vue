@@ -34,8 +34,8 @@ methods:{
 
          })
         
-         .then((res)=>{console.log(res)})
-         .catch((Error)=>{console.log({Error})})
+         .then(()=>{console.log('front 200') })
+         .catch(()=>{console.log('Error front')})
     }
     }
 }

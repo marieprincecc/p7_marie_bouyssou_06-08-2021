@@ -1,36 +1,35 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-     
-      models.User.hasMany(models.Publication, 
-        {foreignKey:'userId'},
-        {onDelete:'CASCADE'}
-      ),
-      models.User.hasMany(models.Commentaire,
-        {foreignKey:'userId'},
-        {onDelete:'CASCADE'}
-        )
-    }
-  };
-  User.init({
-    mail: DataTypes.STRING,
-    firstname: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    password: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'User',
+
+module.exports = (sequelize, Sequelize) => {
+  const User = sequelize.define("user",{
+     mail:{
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    firstname:{
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    lastname:{
+      type: Sequelize.STRING,
+            allowNull: false
+    } ,
+    password: {
+      type: Sequelize.STRING,
+            allowNull: false,
+    },
+    isAdmin:{
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    }, 
+  
   });
+  User.associate=(models)=>{
+ 
+    User.hasMany(models.publication, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', hooks: true, as: 'publication'})
+    User.hasMany(models.commentaire, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', hooks: true, as: 'commentaire'})
+  };
+
   return User;
 };

@@ -1,37 +1,22 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Publication extends Model { 
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      models.Publication.belongsTo(models.User,{
-        foreignKey:{
-          allowNull: false
-        }
-      }),
-     
-      models.Publication.hasMany(models.Commentaire,
-        
-        {onDelete:'CASCADE'})
-        
-      }
-    
-  };
-  Publication.init({
-    title: DataTypes.STRING,
-    texte: DataTypes.STRING,
-  }, {
-    sequelize,
-    modelName: 'Publication',
+module.exports = (sequelize, Sequelize) => {
+  const Publication = sequelize.define("publication",{
+  
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    texte: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+ 
    
   });
+  Publication.associate=(models)=>{
+    Publication.belongsTo(models.user, {foreignKey: 'userId', hooks: true, as: 'user'})
+    Publication.hasMany(models.commentaire, {foreignKey: {name: 'publicationId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', hooks: true, as: 'publication'})
+    };
+  
  
   return Publication;
 };

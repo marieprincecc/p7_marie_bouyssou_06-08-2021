@@ -13,10 +13,12 @@ import axios from 'axios'
 export default {
 data(){
     return{
+     
     lastname:'',
     firstname:'',
     mail:'',
     password:''
+    
     }
     
 },
@@ -24,15 +26,15 @@ methods:{
      async submit(){
          
         await axios.post('http://localhost:3000/api/signup',{
-             Headers:{"Accept": "application/json", "Content-type":"charset=utf-8"},
-             body:{
+            
+             
         lastname: this.lastname,
         firstname: this.firstname,
         mail: this.mail,
-        password: this.password}
+        password: this.password
          })  
-         .then((res)=>{console.log(res)})
-         .catch((Error)=>{console.log({Error})})
+         .then(()=>{console.log('front 200') })
+         .catch(()=>{console.log('Error front')})
     }
 }
 }
