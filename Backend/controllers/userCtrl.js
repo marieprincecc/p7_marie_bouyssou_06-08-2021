@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const models = require('../models');
 const User = models.user;
 const jwtUtils = require('../utils/jwt.utils');
+
+const order = jwtUtils.decoderToken;
+const admin = jwtUtils.decoderTokenAdmin;
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
 const tokenKey = process.env.SECRET_KEY;
@@ -107,9 +110,13 @@ exports.getOneProfil = (req, res, next) => {
         where: { id: req.params.id }
       })
       .then((User) =>{
+        let acces=false
+        order(req)
+        admin(req)
+        if (acces=true) {
         User.destroy({ id: req.params.id },{ truncate: true })
           .then(()=> res.status(201).json({message:'User supprimé'}))
-          .catch((error)=> res.status(400).json({error}))
+          .catch((error)=> res.status(400).json({error}))}
       })
       .catch(()=> res.status(500).json({ 'error': 'User introuvable' }))
 };

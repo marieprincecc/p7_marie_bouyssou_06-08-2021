@@ -34,9 +34,9 @@ methods:{
         mail: this.mail,
         password: this.password
          })  
-         .then()
+         .then(()=>{this.$router.push('/login')})
 
-         .catch(()=>{console.log('Error front')})
+         .catch(()=>{this.$router.push('/signup')})
     }
 }
 }

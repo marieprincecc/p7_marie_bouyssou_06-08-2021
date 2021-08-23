@@ -1,29 +1,29 @@
 <template>
   <img alt="Groupomania logo" src="../assets/icon-above-font.png" />
-  <h1 v-if="mode=='login'">Connexion</h1>
-  <h1 v-else>Inscription</h1>
-  <div v-if="mode=='login'">
-    <loginForm/>
-  </div>
-  <div v-else>
-    <signupForm/>
-  </div>
+ 
+  <h1 >Inscription</h1>
   
-  <button  v-if="mode=='login'" @click="switchInscription">Créer un compte</button>
-  <button @click="switchConnexion" v-else>J'ai déjà un compte</button>
+    
+  
+  
+    <signupForm/>
+ 
+  
+  
+  <button @click="switchConnexion">J'ai déjà un compte</button>
 
 </template>
 
 <script>
-import loginForm from '../components/loginForm.vue'
+
 import signupForm from '../components/signupForm.vue'
 import{ mapState } from 'vuex'
 
 export default {
-  name: 'Login',
+  name: 'home',
 data() {
   return{
-  mode: 'login',
+  
   lastname:'',
   firstname:'',
   mail:'',
@@ -38,18 +38,16 @@ computed:{
 },
 methods:{
      switchConnexion(){
-      this.mode = 'login'
+      this.$router.push('/login')
     },
 
-    switchInscription(){
-      this.mode = 'signup'
-    },
+   
 
    
 },
 components:{
     signupForm,
-    loginForm,
+   
 }
 } 
       

@@ -3,6 +3,9 @@ const Publication = models.publication;
 const Commentaire = models.commentaire;
 const User = models.user;
 const jwt = require('jsonwebtoken');
+const acces = require('../utils/jwt.utils');
+const order = acces.decoderToken;
+const admin = acces.decoderTokenAdmin;
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
@@ -48,6 +51,10 @@ exports.createCommentaire = (req,res,next) =>{
 exports.modifyCommentaire = (req,res,next)=>{
 // Params
   let content = req.body.content;
+  let acces=false
+  order(req)
+ 
+  if (acces=true) {
   Commentaire.findOne({
     attributes: ['id', 'content'],
     where: { id: req.params.id }
@@ -60,6 +67,7 @@ exports.modifyCommentaire = (req,res,next)=>{
       .catch((error)=> res.status(400).json({error}))
   })
   .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
+}
 }
 
 exports.getAllCommentaire = (req,res,next)=>{
@@ -81,9 +89,14 @@ exports.deleteCommentaire = (req, res, next) =>{
     where: { id: req.params.id }
   })
   .then((Commentaire) =>{
+    let acces=false
+  order(req)
+  admin(req)
+  if (acces=true) {
     Commentaire.destroy({ id: req.params.id })
       .then(()=> res.status(201).json({message:'commentaire supprimé'}))
       .catch((error)=> res.status(400).json({error}))
+  }
   })
   .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
   

@@ -7,7 +7,7 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-            <button type="submit" class="btn mb-3  w-25 " @click="publierCom" >Publier</button>
+            <button type="submit" class="btn mb-3  w-25 " @click="publierCom(data.id)" >Publier</button>
         </div>
     </div>
     <commentaireVue/>
@@ -35,16 +35,21 @@ components:{
       
      methods:{
        publierCom(){
+          let params = new URLSearchParams(document.location.search.substring(1));
+         let id = params.get("id")
+         
          let token=sessionStorage.getItem('token')
           let content= this.content
           
+        console.log(id)
 
-         axios.post('http://localhost:3000/api/poste/:id',{
+         axios.post('http://localhost:3000/api/poste/'+id,{
           content: content,
-          token:token
+          token:token,
+          id:id
         })
         
-         .then(()=>{this.$router.push('/poste/:id')})
+         .then(()=>{this.$router.push('/poste/'+id)})
          .catch(()=>{console.log('Error front')})       
     }
      }

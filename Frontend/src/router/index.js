@@ -4,6 +4,7 @@ import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
 import createposte from '../views/createposte.vue';
+import login from '../views/login.vue';
 
 
 
@@ -14,6 +15,11 @@ const routes = [
         name:'home',
         path:'/signup',
         component: home
+    },
+    {
+        name:'login',
+        path:'/login',
+        component: login
     },
     {
         name: 'Accueil',
@@ -29,7 +35,7 @@ const routes = [
 
     {
         name: 'poste',
-        path: '/poste/:id',
+        path: '/onePoste/:id',
         component: poste   
     },
 

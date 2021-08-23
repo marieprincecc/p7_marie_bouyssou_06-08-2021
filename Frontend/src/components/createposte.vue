@@ -43,8 +43,8 @@ data(){
             token: token
           })
         
-         .then(()=>{this.$router.push('/accueil')})
-         .catch(()=>{console.log('Error front')})     
+         this.$router.push('/accueil')
+             
      }  
     }
   }

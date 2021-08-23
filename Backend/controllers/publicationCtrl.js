@@ -3,6 +3,9 @@ const models = require('../models');
 const Publication = models.publication;
 const Commentaire = models.commentaire;
 const User = models.user;
+const acces = require('../utils/jwt.utils');
+const order = acces.decoderToken;
+const admin = acces.decoderTokenAdmin;
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
@@ -19,46 +22,57 @@ console.log(userId)
   let title = req.body.title
   let texte = req.body.texte
 
- 
-    Publication.create({
-      title  : title,
-      texte: texte,
-      userId : userId
-    })
-    .then((publication) =>
-      res.status(201).json(publication))
+  const newPublication = {
+    title  : title,
+    texte: texte,
+    userId : userId
+};
+Publication.create(newPublication)
+.then(function() {
+    res.status(201).json({ message: 'Nouvelle publication créée' });
+})
+   
     
     .catch(error => res.status(400).json({ error }))
   
 }
 
 
-exports.getOnePublication = (req,res,next)=>{
-  Publication.findOne({where:{id:req.params.id},
+exports.getOnePublication = (req,res,id)=>{
+  
+  console.log(req.params.id)
+  console.log('ici')
+  Publication.findOne({where:{id:req.body.id},
     
     include:[
-      {model:Commentaire, where:{PublicationId: req.params.id},include:[{
+      {model:Commentaire, where:{PublicationId: req.body.id},include:[{
         model: User,
         attributes: ['firstname', 'lastname']
       }
       ],required:false},
       { model: User,
-        attributes: ['firstname', 'lastname']}
-  
+        attributes: ['firstname', 'lastname']},
+         
     
     
     ]})                   //recuperation publication avec id
-    .then(publication => res.status(200).json(publication))
-    .catch(error => res.status(404).json({ error }))
+    .then((Publication) => console.log(Publication))
+    .catch((error) => res.status(404).json({ error }))
 };
 
 exports.getAllPublication = (req,res,next)=>{
-  console.log(req.body)
+ console.log(req.body)
+  let acces=false
+  order(req)
+  admin(req)
+  if (acces=true) {
+    console.log('true')
+  
   Publication.findAll()
  
-    .then(() => res.status(200).json('ok'))
+    .then((Publications) => res.status(200).json(Publications))
     .catch(error => res.status(404).json({ error }))
-   
+  }else{(console.log('false')), window.location='http://localhost:8080/login'}
 };
 
 exports.deletePublication = (req, res, next) =>{
@@ -67,10 +81,14 @@ exports.deletePublication = (req, res, next) =>{
 
   })
   .then((Publication) =>{
+    let acces=false
+  order(req)
+  admin(req)
+  if (acces=true) {
     Publication.destroy({ id: req.params.id },{ truncate: true })
       .then(()=> res.status(201).json({message:'Publication supprimé'}))
       .catch((error)=> res.status(400).json({error}))
-      
+  }
   })
   .catch(()=> res.status(500).json({ 'error': 'Publication introuvable' }))
   
