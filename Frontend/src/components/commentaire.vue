@@ -48,19 +48,22 @@ export default {
      async created(){
           let params = new URLSearchParams(document.location.search.substring(1)); 
         let id = params.get("id")  ;
+        
 
      let data= await axios.get(('http://localhost:3000/api/poste/'+id)).data
         console.log(data)
       },
+       
 
       async modify(){
+
            let params = new URLSearchParams(document.location.search.substring(1)); 
             let id = params.get("id")   
           await axios.put('http://localhost:3000/api/poste/:id/commentaire/'+id, {
-              Headers:{ 
+            
                   firstname:  this.firstname,
                   lastname:  this.lastname,
-                    content: this.content}
+                    content: this.content
           })
       }
 }

@@ -23,23 +23,33 @@ export default {
 data(){
     return{
      texte:"",
-     title:""
+     title:"",
+    
     }
 
       },
       
      methods:{
        publier(){
-         
+          let token=sessionStorage.getItem('token')
+          console.log(token)
+          let texte= this.texte
+          let title= this.title
+
          axios.post('http://localhost:3000/api/poste',{
-             Headers:{
-               texte:this.texte,
-              title:this.title}
-         })
-       
+            
+           texte: texte,
+            title: title,
+            token: token
+          })
+        
+         .then(()=>{this.$router.push('/accueil')})
+         .catch(()=>{console.log('Error front')})     
+     }  
     }
-     }
-}
+  }
+
+
 
 
 </script>

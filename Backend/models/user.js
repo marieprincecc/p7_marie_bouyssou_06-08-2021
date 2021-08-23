@@ -27,8 +27,8 @@ module.exports = (sequelize, Sequelize) => {
   });
   User.associate=(models)=>{
  
-    User.hasMany(models.publication, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', hooks: true, as: 'publication'})
-    User.hasMany(models.commentaire, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', hooks: true, as: 'commentaire'})
+    User.hasMany(models.publication, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE',as: 'publication'})
+    User.hasMany(models.commentaire, {foreignKey: {name: 'userId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'commentaire'})
   };
 
   return User;

@@ -1,4 +1,7 @@
 const models = require('../models');
+const Publication = models.publication;
+const Commentaire = models.commentaire;
+const User = models.user;
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
@@ -6,20 +9,23 @@ const tokenKey = process.env.SECRET_KEY;
 const regex = /^([A-Za-z0-9\s.])*$/ 
 
 exports.createCommentaire = (req,res,next) =>{
-  const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
-  const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
-  const idUSER = decodedToken.idUSER;
-    let content = req.body.content
+  let token = req.body.token      //on recupère le token dans les headers
+  console.log(req.body)
+  const decodedToken = jwt.decode(token, tokenKey); 
+  console.log(decodedToken)                 //on decode le token
+  const userId = decodedToken.userId;
+     
+  let content = req.body.content
 
   
-    models.Publication.findOne({
+    Publication.findOne({
       where: { id: req.params.id }
     })
     .then((Publication) =>{
-      models.Commentaire.create({
+      Commentaire.create({
         content  : content,
         PublicationId: Publication.id,
-        UserId : idUSER
+        userId : userId
       })
       .then((Commentaire) =>
         res.status(201).json(Commentaire))
@@ -42,7 +48,7 @@ exports.createCommentaire = (req,res,next) =>{
 exports.modifyCommentaire = (req,res,next)=>{
 // Params
   let content = req.body.content;
-  models.Commentaire.findOne({
+  Commentaire.findOne({
     attributes: ['id', 'content'],
     where: { id: req.params.id }
   })
@@ -57,7 +63,7 @@ exports.modifyCommentaire = (req,res,next)=>{
 }
 
 exports.getAllCommentaire = (req,res,next)=>{
-  models.Commentaire.findAll({
+  Commentaire.findAll({
       include:[{
         model: models.User,
         attributes: ['firstname', 'lastname']
@@ -71,7 +77,7 @@ exports.getAllCommentaire = (req,res,next)=>{
  
 
 exports.deleteCommentaire = (req, res, next) =>{
-  models.Commentaire.findOne({
+  Commentaire.findOne({
     where: { id: req.params.id }
   })
   .then((Commentaire) =>{

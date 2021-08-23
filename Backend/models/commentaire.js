@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {         // Post belongsTo User 1:1
-        model: 'publication',
+        model: 'publications',
         key: 'id'
     }
 },
@@ -24,8 +24,8 @@ module.exports = (sequelize, Sequelize) => {
   });
   Commentaire.associate=(models)=>{
     
-    Commentaire.belongsTo(models.user, {foreignKey: 'userId', hooks: true, as: 'user'})
-    Commentaire.belongsTo(models.publication, {foreignKey: 'publicationId', hooks: true, as: 'publication'})
+    Commentaire.belongsTo(models.user, {foreignKey: 'userId',as: 'user'})
+    Commentaire.belongsTo(models.publication, {foreignKey: 'publicationId', as: 'publication'})
   };
   
   return Commentaire;

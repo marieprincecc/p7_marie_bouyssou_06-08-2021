@@ -13,8 +13,7 @@ const EMAIL_REGEX     = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(
 const PASSWORD_REGEX  = /^(?=.*\d).{4,8}$/;      
 
 exports.signup = (req,res,next) => {
-   console.log('on arrive')
-   console.log(req.body)
+  
     
 
     //verification des données(regex etc)
@@ -28,8 +27,6 @@ exports.signup = (req,res,next) => {
         console.log('password ok')
     }else{return res.status(400).json({ 'error': 'password invalid (longueur 4 - 8 et doit inclure 1 nombre)' })};
     
-     //recup params
-     let mail = req.body.mail;
      let password = req.body.password;
                 
                 bcrypt.hash(password,10)
@@ -53,18 +50,20 @@ exports.signup = (req,res,next) => {
 
 
 exports.login = (req,res) => {
-    
+    console.log('on arrive')
+    console.log(req.body)
     //recup params
     
     let mail = req.body.mail;
     let password = req.body.password;
     
 
-    if (mail == null || password == null){
-       
+    if (mail == '' || password == ''){
+        console.log(mail,password)
+   
         return res.status(400).json({'error': 'paramètres manquant'});
     } 
-    models.User.findOne({where:{mail:mail}})
+    User.findOne({where:{mail:mail}})
    
         .then(User =>{
            
@@ -75,14 +74,15 @@ exports.login = (req,res) => {
                       return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }else{
                         res.status(200).json({            //si mot de passe correct on renvoi la reponse attendu
-                            idUSER: User.id,
-                            token: jwtUtils.genererToken(User)              //durée de validité du token
+                            userId: User.id,
+                            token: jwtUtils.genererToken(User)
+                                   
                         });
                     }
                 })
                 .catch(error => res.status(500).json({ error }));
             }else{ 
-                return res.status(400).json({error:"utilisateur inconnu"})
+                return res.status(400).json({alerte:"utilisateur inconnu"})
             }
         })
         .catch(error => res.status(500).json({ error }));
@@ -92,7 +92,7 @@ exports.login = (req,res) => {
 exports.getOneProfil = (req, res, next) => {  
     const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
     const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
-    const userId = decodedToken.idUSER;                       
+    const userId = decodedToken.userId;                       
     //let idProfil = req.params.id
     models.User.findOne({ where:{ id: userId}, 
         include:[
@@ -103,7 +103,7 @@ exports.getOneProfil = (req, res, next) => {
   };
 
   exports.deleteUser= (req, res, next) =>{
-    models.User.findOne({
+    User.findOne({
         where: { id: req.params.id }
       })
       .then((User) =>{

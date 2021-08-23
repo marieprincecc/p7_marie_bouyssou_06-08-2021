@@ -53,20 +53,14 @@ name: 'publication',
       }},    
     
     async created(){
-      
+      console.log('avant appel')
       const data= (await axios.get(('http://localhost:3000/api/accueil')))
-    
-     
+      console.log('apres appel');
+      console.log(data)
       this.publications = data.data
       this.title = data.data.title
       this.texte = data.data.texte
      
-      
-    
-       
-      
-     
-      
       
        console.log(data.data)
   console.log(this.publications)

@@ -1,108 +1,41 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import axios from 'axios'
+import createPersistedState from "vuex-persistedstate";
 
-import {createStore} from 'vuex'
-const axios = require('axios');
+Vue.use(Vuex)
 
-const instance = axios.createStore({
-    baseURL :  'http://localhost:3000/api'
-});
+const LOGIN = "LOGIN";
+const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+const LOGOUT = "LOGOUT";
 
-let user = localStorage.getItem('user');
-if (!user) {
-    user = {
-        userId:-1,
-        token:''
-    };
-}else{
-    try{
-        user = JSON.parse(user);
-        instance.defaults.headers.common['Authorization'] = User.token;
-    }
-    catch (ex) {
-        user = {
-            userId: -1,
-            token: ''
-        };
-    }
-}
+export default new Vuex.Store({
 
-const store = createStore({
-    state:{
-        status:'',
-        user:user,
-        User:{
-            firstname:'',
-            lastname:'',
-            mail:'',
-            isAdmin:''
-        },
+    plugins:[createPersistedState()],
+    state: {
+        homelink: "/",
+        token: '',
+        URL: 'http://localhost:3000/api',
+        publications: [],
+        publication: [],
+        commentaires:[],
+        commentaire:[],
+        user: {},
+        profil: {},
+        isAdmin: false,
+        
     },
-    mutations:{
-        setStatus(state, status){
-            state.status = status;
+    mutations: {
+        [LOGIN] (state) {
+            state.pending = true;
         },
-        logUser(state, User){
-            instance.defaults.headers.common['Authorization'] = User.token;
-            localStorage.setItem('user', JSON.stringify(User));
-            state.user = User
+        [LOGIN_SUCCESS] (state) {
+            state.isLoggedIn = true;
+            state.pending = false;
         },
-        User(state, User){
-            state.user = User;
-        },
-        logout(state){
-            state.user = {
-                userId: -1,
-                token:'',
-            }
-            localStorage.removeItem('user');
-
+        [LOGOUT](state) {
+            state.isLoggedIn = false;
         }
     },
-
-    actions:{
-        login: ({commit},User)=>{
-            if(User.mail !=''&& User.password !="")
-            commit('setStatus','logUser');
-            return new Promise((resolve, reject)=>{
-               axios.post('http://localhost:3000/api/login',{
-                   mail: this.mail,
-                   password: this.password})
-               .then(res=()=>{
-                   commit('setStatus','');
-                    commit('logUser',res.data);
-                    resolve(res);
-               })
-               .catch(error=()=>{
-                commit('setStatus','errorLogin');
-                reject(error);
-                });
-            });
-        },
-
-        signup:({commit},User)=>{
-            commit;
-            ('setStatus', 'loading');
-            return new Promise((resolve, reject)=>{
-                commit;
-                instance.post('/',User)
-                .then(res=()=>{
-                    commit('setStatus','signup');
-                    resolve(res);
-                })
-                .catch(error=()=>{
-                    commit('setStatus','errorSignup');
-                    reject(error);
-                })
-            })
-        },
-
-        getUserInfo:({commit})=>{
-            instance.post('/profil')
-            .then(res=()=>{
-                commit('User',res.data)
-            })
-            .catch(()=>{})
-        }
-    }
+    actions
 })
-
-export default store;

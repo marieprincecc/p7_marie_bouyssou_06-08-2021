@@ -10,6 +10,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
 data(){
     return{
@@ -33,7 +34,8 @@ methods:{
         mail: this.mail,
         password: this.password
          })  
-         .then(()=>{console.log('front 200') })
+         .then()
+
          .catch(()=>{console.log('Error front')})
     }
 }

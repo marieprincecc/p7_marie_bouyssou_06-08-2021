@@ -12,7 +12,8 @@ export default {
 data(){
     return{
         mail:'',
-        password:''
+        password:'',
+         URL:'http://localhost:3000/api/login'
     }
 },
 
@@ -21,20 +22,17 @@ methods:{
         
         let mail= this.mail
         let password= this.password
-
-         axios.post('http://localhost:3000/api/login',{
-              headers:
-                {"Accept": "application/json", "Content-type":"charset=utf-8"}    , 
-           
-            body: {mail,
-            password},
-
-              
-            
-
-         })
         
-         .then(()=>{console.log('front 200') })
+         axios.post('http://localhost:3000/api/login',{
+          mail: mail,
+          password,
+        })
+        
+         .then((res)=>{
+           console.log()
+            sessionStorage.setItem('token', res.data.token);
+            this.$router.push('/accueil')
+         })
          .catch(()=>{console.log('Error front')})
     }
     }
