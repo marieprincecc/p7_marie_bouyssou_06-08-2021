@@ -3,7 +3,6 @@ import home from'../views/home.vue';
 import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
-import createposte from '../views/createposte.vue';
 import login from '../views/login.vue';
 import modifyCom from '../views/modifyCom'
 
@@ -29,14 +28,8 @@ const routes = [
     },
 
     {
-        name: 'createposte',
-        path: '/poste',
-        component: createposte
-    },
-
-    {
         name: 'poste',
-        path: '/onePoste',
+        path: '/poste',
         component: poste   
     },
 
@@ -53,7 +46,7 @@ const routes = [
     },
     {
         name:'modifyCom',
-        path:'/commentaire',
+        path:'/commentaire/:id',
         component: modifyCom
     }
 

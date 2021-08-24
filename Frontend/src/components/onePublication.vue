@@ -16,7 +16,7 @@
             </div>
             </div>
       </h5>
-      <p class="card-text">{{}}</p>
+      <p class="card-text">{{texte}}</p>
     <div>
     </div>
     </div>
@@ -39,15 +39,18 @@ export default {
       texte:'',}
     },
 
-    async onePublication(){
+    async created(){
         console.log('rentre tu dans la fonction')
         let id =  sessionStorage.getItem('publicationId')
         let token = sessionStorage.getItem('token')
+        
         console.log(token)
         console.log(id+"l'id")
-       let data= (await axios.get(('http://localhost:3000/api/poste'),{token, id}
+       let data=  await axios.get(('http://localhost:3000/api/poste/'+id),{token})
         
-      ))
+       
+        
+    
         
     
         console.log ("pourquoi tu n'affiche pas data")
@@ -59,10 +62,12 @@ export default {
     },
     methods:{
          async deletePoste(){
-         let poste =  sessionStorage.getItem('publicationId')
+         let id =  sessionStorage.getItem('publicationId')
           let token = sessionStorage.getItem('token')
-         let data= await axios.delete(('http://localhost:3000/api/poste'),{token, poste})
+         let data= await axios.delete(('http://localhost:3000/api/poste/'+id),{token})
           console.log(data)
+          sessionStorage.removeItem('publicationId')
+          this.$router.push('/accueil')
         }
 
     }

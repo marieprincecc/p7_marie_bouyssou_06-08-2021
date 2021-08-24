@@ -38,19 +38,24 @@ Publication.create(newPublication)
 }
 
 
-exports.getOnePublication = (req,res)=>{
-  console.log('ici pour une publication precise')
-  const onePublication = Publication.findByPk(req.body.id)
-  if(onePublication===null){
-    console.log("not found")
-    return res.status(404)
-  }else{
-    console.log(onePublication instanceof Publications)
-    console.log(onePublication)
-    console.log(Publication)
-    console.log(onePublication.title)
-    return res.status(200).json({onePublication})
-  }
+exports.getOnePublication =async (req,res,next)=>{
+  let acces=false
+ let id = req.body.id
+ let token = req.body.token
+ console.log (req.body)
+order(token)
+admin(token)
+if (acces=true) {
+  console.log('true')
+  Publication.findOne({
+    where: { id: req.params.id },
+
+  })
+ 
+  .then((Publication) => res.status(200).json(Publication))
+  .catch(error => res.status(404).json({ error }))
+  }else{(console.log('false')), window.location='http://localhost:8080/login'}
+
 }
     
     

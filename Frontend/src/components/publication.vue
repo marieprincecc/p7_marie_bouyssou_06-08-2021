@@ -77,10 +77,10 @@ name: 'publication',
   
    methods:{ 
      
-      async  pushId(id){
+       pushId(id){
         let poste = id
         sessionStorage.setItem('publicationId', poste);  
-      this.$router.push('/onePoste')
+      this.$router.push('/poste')
         },
           
      
@@ -95,7 +95,8 @@ name: 'publication',
          
           let token = sessionStorage.getItem('token')
           await axios.delete(('http://localhost:3000/api/poste/'+id),{token})
-        }
+          this.$router.push('/accueil')
+        },
       }
 }
      

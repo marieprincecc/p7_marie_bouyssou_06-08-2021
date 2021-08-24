@@ -72,11 +72,28 @@ exports.modifyCommentaire = (req,res,next)=>{
 
 exports.getAllCommentaire = (req,res,next)=>{
   console.log('est ce que je suis dans le get all com')
-  Commentaire.findAll()                   
+  Commentaire.findAll({
+    where: { PublicationId: req.params.id }
+  })                   
    
-      .then((Commentaires) => res.status(200).json(Commentaires))
+      .then((Commentaire) => res.status(200).json(Commentaire))
       .catch(error => res.status(404).json({ error }))
   };
+
+  exports.getOneCommentaire = (req,res)=>{
+    console.log('ici pour une publication precise')
+    const oneCommentaire = Commentaire.findByPk(req.body.id)
+    if(oneCommentaire===null){
+      console.log("not found")
+      return res.status(404)
+    }else{
+      console.log(oneCommentaire instanceof Commentaires)
+      console.log(oneCommentaire)
+      console.log(Commentaire)
+      console.log(oneCommentaire.title)
+      return res.status(200).json(oneCommentaire)
+    }
+  }
  
 
 exports.deleteCommentaire = (req, res, next) =>{

@@ -25,7 +25,7 @@
 <script>
 import commentaireVue from './commentaire.vue'
 import axios from 'axios'
-let created =commentaireVue.created
+
 export default {
 name: 'ensembleCommentaire',
 
@@ -45,7 +45,7 @@ components:{
        afficheCom(){
          if(this.mode=='invisible'){
           this.mode='visible'
-            created()
+            
             console.log(this.mode)
          }else if(this.mode=='visible'){
           this.mode='invisible'
@@ -67,7 +67,7 @@ components:{
           publicationId:publicationId
         })
         console.log("c'est ok")
-         this.$router.push('/onePoste/')
+         this.$router.push('/poste')
           
          
        
