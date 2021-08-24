@@ -48,7 +48,8 @@ admin(token)
 if (acces=true) {
   console.log('true')
   Publication.findOne({
-    where: { id: req.params.id },
+    where: { id: req.params.id }
+   
 
   })
  

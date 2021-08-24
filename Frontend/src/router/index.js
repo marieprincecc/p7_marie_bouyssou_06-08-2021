@@ -4,7 +4,7 @@ import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
 import login from '../views/login.vue';
-import modifyCom from '../views/modifyCom.vue';
+import modifyCom from '../views/modifCom.vue';
 
 
 
@@ -35,7 +35,7 @@ const routes = [
 
     {
         name: 'profil',
-        path: '/profil/:id',
+        path: '/profil',
         component: profil
     },
 
@@ -46,7 +46,7 @@ const routes = [
     },
     {
         name:'modifyCom',
-        path:'poste/commentaire/:id',
+        path:'/poste/commentaire/:id',
         component: modifyCom
     }
 

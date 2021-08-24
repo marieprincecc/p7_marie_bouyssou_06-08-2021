@@ -12,7 +12,7 @@ exports.router = (function(){
     const appRouter = express.Router();
 
     //users routes
-    appRouter.route('/profil').get(userCtrl.getOneProfil);//
+    appRouter.route('/profil/:id').get(userCtrl.getOneProfil);//
     appRouter.route('/signup').post(userCtrl.signup);//
     appRouter.route('/login').post(userCtrl.login);//
     appRouter.route('/profil/:id').delete(userCtrl.deleteUser);  //ok si pas de publication

@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
 const models = require('../models');
+const jwt = require('jsonwebtoken');
 const User = models.user;
 const jwtUtils = require('../utils/jwt.utils');
-
 const order = jwtUtils.decoderToken;
 const admin = jwtUtils.decoderTokenAdmin;
-const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
@@ -93,17 +92,31 @@ exports.login = (req,res) => {
 }
 
 exports.getOneProfil = (req, res, next) => {  
-            //on recupère le token dans les headers
+          let token = req.params.id  //on recupère le token dans les headers
+          console.log(token)
     const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
-    const userId = decodedToken.userId;                       
+    const userId = decodedToken.userId; 
+    console.log(userId)                      
     //let idProfil = req.params.id
-    models.User.findOne({ where:{ id: userId}, 
-        include:[
-            {model:models.Publication, where:{UserId: userId},required:false}
-          ]})
+    User.findOne({ where:{ id: userId}
+    })
       .then(User => res.status(200).json(User))
       .catch(error => res.status(404).json({ error }))
   };
+
+  exports.getNameUser = (req, res, next) => {  
+   
+User.findOne({ where:{ id: userId}
+})
+.then(User => {
+    let lastname = User.lastname
+    let firstname = User.firstname
+    let name = (lastname+''+firstname)
+    return name
+
+})
+.catch(error => res.status(404).json({ error }))
+};
 
   exports.deleteUser= (req, res, next) =>{
     User.findOne({

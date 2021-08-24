@@ -1,15 +1,15 @@
 <template>
-  <navbarVue/>
+   <navbarVue/>
     <div>
       <div class="row " >
         <div class="col-11">
-          <h5>{{data.UserId}}</h5>
+          <h5>{{}}</h5>
         </div>
           <div class="col">
-            <span class="btn" @click="supCom(data.id)">x</span>
+            <span class="btn" @click="supCom(id)">x</span>
           </div>
       </div>
-        <p>{{data.content}}</p>
+        <p>{{content}}</p>
     </div>
     <div class="card card-body">
       <label for="com" class="form-label">Modifier votre commentaire</label>
@@ -18,7 +18,7 @@
         </div>
       <div class="row align-items-center">
         <div class="col">
-            <button type="submit" class="btn mb-3  w-25 " @click="modify(data.id)" >Modifier</button>
+            <button type="submit" class="btn mb-3  w-25 " @click="modify(id)" >Modifier</button>
         </div>
     </div>
   </div>
@@ -31,17 +31,26 @@ export default {
 name: 'modifyCom',
 components:{
      navbarVue,
+     
+     
+     },
+     data(){
+       return{
+         content:'',
+         id:''
+       }
      },
        async created(){
         console.log('rentre tu dans la fonction')
-        let id =  sessionStorage.getItem('commentaireId')
+        let id =  sessionStorage.getItem('commentairId')
         let token = sessionStorage.getItem('token')
         console.log(token)
         console.log(id+"l'id")
-       let data= (await axios.get(('http://localhost:3000/api/poste/commentaire'+id),{token, id}
+       let data= (await axios.get(('http://localhost:3000/api/poste/commentaire/'+id),{token}
         
       ))
-        
+        this.content=data.data.content,
+        this.id=data.data.id
     
         console.log ("pourquoi tu n'affiche pas data")
       console.log (data)
@@ -53,16 +62,18 @@ components:{
          
          let token=sessionStorage.getItem('token')
           let content= this.content   
-          await axios.put('http://localhost:3000/api/poste/commentaire'+id,{
+          await axios.put('http://localhost:3000/api/poste/commentaire/'+id,{
 
             content:content,
             token:token
           })
+          this.$router.push('/poste')
     },
     async supCom(id){
           
           let token = sessionStorage.getItem('token')
-          await axios.delete(('http://localhost:3000/api/poste/commentaire'+id),{token})
+          await axios.delete(('http://localhost:3000/api/poste/commentaire/'+id),{token})
+           this.$router.push('/poste')
     }
      }
 }

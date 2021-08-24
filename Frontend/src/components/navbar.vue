@@ -14,7 +14,7 @@
                                     <router-link class="nav-link" to="/accueil">Accueil</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link" to="/profil/:id">Profil</router-link>
+                                    <router-link class="nav-link" to="/profil">Profil</router-link>
                                 </li>
                                 <li class="nav-item">
                                     <router-link class="nav-link" to="/poste">Nouvelle publication</router-link> 
