@@ -1,32 +1,27 @@
 <template>
   <navbarVue/>
-  <div>
-    <div class="row " >
-            <div class="col-11">
-                <h5>{{data.UserId}}</h5>
-            </div>
-            <div class="col">
-                <span class="btn" @click="supCom(data.id)">x</span>
-            </div>
+    <div>
+      <div class="row " >
+        <div class="col-11">
+          <h5>{{data.UserId}}</h5>
         </div>
+          <div class="col">
+            <span class="btn" @click="supCom(data.id)">x</span>
+          </div>
+      </div>
         <p>{{data.content}}</p>
-  </div>
-  <div class="card card-body">
-    <label for="com" class="form-label">Modifier votre commentaire</label>
-    <div class="mb-3 md-mb-5">
-        <textarea class="form-control" id="com" rows="3" placeholder="Votre texte ici" v-model="content"></textarea>
     </div>
-    <div class="row align-items-center">
+    <div class="card card-body">
+      <label for="com" class="form-label">Modifier votre commentaire</label>
+        <div class="mb-3 md-mb-5">
+          <textarea class="form-control" id="com" rows="3" placeholder="Votre texte ici" v-model="content"></textarea>
+        </div>
+      <div class="row align-items-center">
         <div class="col">
             <button type="submit" class="btn mb-3  w-25 " @click="modify(data.id)" >Modifier</button>
         </div>
     </div>
-     
-  
-    
-    
-</div>
-
+  </div>
 </template>
 
 <script>
@@ -37,7 +32,7 @@ name: 'modifyCom',
 components:{
      navbarVue,
      },
-       async oneCommentaire(){
+       async created(){
         console.log('rentre tu dans la fonction')
         let id =  sessionStorage.getItem('commentaireId')
         let token = sessionStorage.getItem('token')

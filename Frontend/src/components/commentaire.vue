@@ -58,9 +58,9 @@ export default {
  methods:{
 
   firstfunction(id){
-        let commentairId = id
-       sessionStorage.setItem('commentairId',commentairId) 
-       this.$router.push('/commentaire') 
+        
+       sessionStorage.setItem('commentairId',id) 
+       this.$router.push('/poste/commentaire/'+id) 
      },
      
      
