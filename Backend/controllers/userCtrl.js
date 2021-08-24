@@ -93,7 +93,7 @@ exports.login = (req,res) => {
 }
 
 exports.getOneProfil = (req, res, next) => {  
-    const token = req.headers.authorization.split(' ')[1];          //on recupère le token dans les headers
+            //on recupère le token dans les headers
     const decodedToken = jwt.verify(token, tokenKey);                  //on decode le token
     const userId = decodedToken.userId;                       
     //let idProfil = req.params.id

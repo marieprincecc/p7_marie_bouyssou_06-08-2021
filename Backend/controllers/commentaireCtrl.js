@@ -19,15 +19,15 @@ exports.createCommentaire = (req,res,next) =>{
   const userId = decodedToken.userId;
      
   let content = req.body.content
-
+  let id = req.body.publicationId
   
     Publication.findOne({
-      where: { id: req.params.id }
+      where: { id: id }
     })
     .then((Publication) =>{
       Commentaire.create({
         content  : content,
-        PublicationId: Publication.id,
+        publicationId: Publication.id,
         userId : userId
       })
       .then((Commentaire) =>
@@ -71,15 +71,10 @@ exports.modifyCommentaire = (req,res,next)=>{
 }
 
 exports.getAllCommentaire = (req,res,next)=>{
-  Commentaire.findAll({
-      include:[{
-        model: models.User,
-        attributes: ['firstname', 'lastname']
-      }
-      ]
-    })                   
+  console.log('est ce que je suis dans le get all com')
+  Commentaire.findAll()                   
    
-      .then(commentaires => res.status(200).json(commentaires))
+      .then((Commentaires) => res.status(200).json(Commentaires))
       .catch(error => res.status(404).json({ error }))
   };
  

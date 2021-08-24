@@ -2,11 +2,11 @@
   <div class="container-fluid p-5 bg" id="profil" >
       <div class="row">
           <div class="col md-p-5">
-              <h1> {{firstname}}  {{lastname}}</h1>
+              <h1> {{data.firstname}}  {{data.lastname}}</h1>
           </div>
           <div class="row">
             <div class="col">
-              <button class="btn" id="delete">Supprimer mon compte</button>
+              <button class="btn" @click="deleteUser(data.UserId)">Supprimer mon compte</button>
             </div>
 
           </div>
@@ -24,11 +24,18 @@ export default {
     return{
        firstname: '',
       lastname:'',
+      userId:'',
     }
     },
     async created(){
-      this.firstname = (await axios.get('http://localhost:3000/api/profil/:id')).data.firstname
-      this.lastname = (await axios.get('http://localhost:3000/api/profil/:id')).data.lastname
+      let token = sessionStorage.getItem('token')
+     await axios.get('http://localhost:3000/api/profil/:id'),{token}
+},
+methods:{
+  async deleteUser(id){
+        let token = sessionStorage.getItem('token')
+          await axios.delete(('http://localhost:3000/api/profil/'+id),{token})
+  }
 }
 
 }

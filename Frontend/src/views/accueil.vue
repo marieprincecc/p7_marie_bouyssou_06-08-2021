@@ -1,5 +1,6 @@
 <template>
   <navbarVue/>
+  <formPoste/>
   <div class="container">
   
   <publicationVue/> <!-- v-for='publication'-->
@@ -10,6 +11,7 @@
 <script>
 
 import navbarVue from '../components/navbar.vue'
+import formPoste from '../components/createposte.vue'
 import publicationVue from '../components/publication.vue'
 import axios from 'axios'
 export default {
@@ -18,6 +20,7 @@ name: 'Accueil',
 components:{
      navbarVue,
      publicationVue,
+     formPoste,
      
      },
      data(){

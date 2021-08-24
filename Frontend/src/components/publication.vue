@@ -1,6 +1,6 @@
 <template>
 <div :key="data.id" v-for="data in publications">
-  <div class="card" id="" >
+  <div class="card">
     <div class="card-header" id="auteur">
     {{}} {{data.User}}
     </div>
@@ -79,19 +79,8 @@ name: 'publication',
      
       async  pushId(id){
         let poste = id
-        let token = sessionStorage.getItem('token')
-      console.log('avant appel')
-      let data= (await axios.get(('http://localhost:3000/api/accueil'),{token, poste}
-        
-      ))
-      console.log('apres appel');
-      console.log(data)
-      console.log('lalala')
-    
-       this.publications = data.data
-      
-         
-      this.$router.push('/onePoste/?id='+id)
+        sessionStorage.setItem('publicationId', poste);  
+      this.$router.push('/onePoste')
         },
           
      

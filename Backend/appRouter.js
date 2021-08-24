@@ -22,8 +22,9 @@ exports.router = (function(){
     appRouter.route('/poste').post(publicationCtrl.createPublication); //
     appRouter.route('/poste/:id').delete(publicationCtrl.deletePublication);  //ok si pas de com
     //commentaires routes
-    appRouter.route('/poste/:id/commentaire').get(commentaireCtrl.getAllCommentaire);//
-    appRouter.route('/poste/:id/commentaire').post(commentaireCtrl.createCommentaire); //
+    appRouter.route('/poste/commentaire').get(commentaireCtrl.getAllCommentaire);
+    appRouter.route('/poste/commentaire/:id').get(commentaireCtrl.getOneCommentaire);//
+    appRouter.route('/poste/commentaire').post(commentaireCtrl.createCommentaire); //
     appRouter.route('/poste/commentaire/:id').put(commentaireCtrl.modifyCommentaire);//
     appRouter.route('/poste/commentaire/:id').delete(commentaireCtrl.deleteCommentaire);  //
 

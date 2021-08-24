@@ -7,18 +7,25 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-            <button type="submit" class="btn mb-3  w-25 " @click="publierCom(data.id)" >Publier</button>
+            <button type="submit" class="btn mb-3  w-25 " @click="publierCom()" >Publier</button>
         </div>
     </div>
-    <commentaireVue/>
+     <span class="btn text-dark" @click="afficheCom()">
+    Commentaires
+     </span>
+   <div v-if="mode=='visible'">
+     <commentaireVue/>
+   </div>
+    
     
 </div>
 
 </template>
 
 <script>
-import commentaireVue from './commentaire'
+import commentaireVue from './commentaire.vue'
 import axios from 'axios'
+let created =commentaireVue.created
 export default {
 name: 'ensembleCommentaire',
 
@@ -28,29 +35,43 @@ components:{
      data(){
     return{
      content:"",
+     mode:'invisible',
      
     }
 
       },
       
      methods:{
-       publierCom(){
-          let params = new URLSearchParams(document.location.search.substring(1));
-         let id = params.get("id")
+       afficheCom(){
+         if(this.mode=='invisible'){
+          this.mode='visible'
+            created()
+            console.log(this.mode)
+         }else if(this.mode=='visible'){
+          this.mode='invisible'
+          console.log(this.mode)
+         }
          
-         let token=sessionStorage.getItem('token')
+       },
+      async publierCom(){
+          let publicationId = sessionStorage.getItem('publicationId')
+          let token=sessionStorage.getItem('token')
           let content= this.content
           
-        console.log(id)
+          
+            console.log(publicationId)
 
-         axios.post('http://localhost:3000/api/poste/'+id,{
+        await axios.post('http://localhost:3000/api//poste/commentaire',{
           content: content,
           token:token,
-          id:id
+          publicationId:publicationId
         })
+        console.log("c'est ok")
+         this.$router.push('/onePoste/')
+          
+         
+       
         
-         .then(()=>{this.$router.push('/poste/'+id)})
-         .catch(()=>{console.log('Error front')})       
     }
      }
 }

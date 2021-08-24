@@ -38,27 +38,26 @@ Publication.create(newPublication)
 }
 
 
-exports.getOnePublication = (req,res,id)=>{
-  
-  console.log(req.params.id)
-  console.log('ici')
-  Publication.findOne({where:{id:req.body.id},
+exports.getOnePublication = (req,res)=>{
+  console.log('ici pour une publication precise')
+  const onePublication = Publication.findByPk(req.body.id)
+  if(onePublication===null){
+    console.log("not found")
+    return res.status(404)
+  }else{
+    console.log(onePublication instanceof Publications)
+    console.log(onePublication)
+    console.log(Publication)
+    console.log(onePublication.title)
+    return res.status(200).json({onePublication})
+  }
+}
     
-    include:[
-      {model:Commentaire, where:{PublicationId: req.body.id},include:[{
-        model: User,
-        attributes: ['firstname', 'lastname']
-      }
-      ],required:false},
-      { model: User,
-        attributes: ['firstname', 'lastname']},
-         
     
     
-    ]})                   //recuperation publication avec id
-    .then((Publication) => console.log(Publication))
-    .catch((error) => res.status(404).json({ error }))
-};
+    
+                      //recuperation publication avec id
+   
 
 exports.getAllPublication = (req,res,next)=>{
  console.log(req.body)

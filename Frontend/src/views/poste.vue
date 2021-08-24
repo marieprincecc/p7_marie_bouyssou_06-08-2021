@@ -1,20 +1,19 @@
 <template>
   <navbarVue/>
-   <publicationVue/>
+   <onePoste/>
    <ensembleCommentaire/>
 </template>
 
 <script>
 import navbarVue from '../components/navbar.vue'
-import publicationVue from '../components/publication.vue'
+import onePoste from '../components/onePublication.vue'
 import ensembleCommentaire from '../components/newCommentaire.vue'
-
 
 export default {
 name: 'Publication',
 components:{
      navbarVue,
-     publicationVue,
+     onePoste,
      ensembleCommentaire
      },
      data(){
