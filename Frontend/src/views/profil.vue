@@ -3,7 +3,7 @@
    <div class="container-fluid p-5 bg" id="profil" >
       <div class="row">
           <div class="col md-p-5">
-              <h1> {{firstname}}  {{lastname}}</h1>
+              <h1 class="text-dark"> {{firstname}}  {{lastname}}</h1>
           </div>
           <div class="row">
             <div class="col">
@@ -13,31 +13,60 @@
           </div>
           
       </div>
-
+  <button class="btn" @click="publicationProfil(id)">Publications</button>
 </div>
-  <div class="container">
-  <publicationVue/>
+<div class="container">
+ <div :key="data.id" v-for="data in publications">
+    <div class="card">
+      <div class="card-body" id="post">
+        <h5 class="card-title">
+          <div class="row">
+            <div class="col">
+              
+                {{ data.title }}
+           
+             
+              <div class="col">
+             
+            </div>
+            </div>
+            
+          </div>
+        </h5>
+        <p class="card-text">{{ data.texte }}</p>
+        <div>
+          
+         
+        </div>
+      </div>
+    </div>
   </div>
+ </div>
 </template>
 
 <script>
 import navbarVue from '../components/navbar.vue'
 
-import publicationVue from '../components/publication.vue'
+
+
 import axios from 'axios'
 export default {
 name: 'Profil',
 components:{
      navbarVue,
     
-     publicationVue
+    
 
      },
      data(){
      return { 
+        publications: [],
        firstname:'',
        lastname:'',
-       id:''}
+       id:'',
+       texte:'',
+       title:'',
+      }
      },
       async created(){
 
@@ -53,6 +82,18 @@ components:{
      
      },
      methods:{
+
+       async publicationProfil(id){
+          let data = await axios.get("http://localhost:3000/api/profil/poste/" + id);
+
+   
+     this.publications = data.data;
+    this.title = data.data.title;
+    this.texte = data.data.texte;
+    
+    
+    
+       },
         async deleteUser(id){
          
           let token = sessionStorage.getItem('token')
@@ -60,7 +101,12 @@ components:{
           sessionStorage.removeItem('token')
           this.$router.push('/signup')
         },
-     }
+
+        
+        
+
+     },
+    
     
 }
 </script>
@@ -68,6 +114,9 @@ components:{
 <style>
  body, html {
     height: 100%;
+  }
+  h1{
+    color:black;
   }
   .bg {
     /* The image used */

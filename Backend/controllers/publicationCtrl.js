@@ -92,6 +92,19 @@ exports.getAllPublication = async (req, res, next) => {
   } else { (console.log('false')), window.location = 'http://localhost:8080/login' }
 };
 
+exports.getPublicationProfil = (req, res, next) => {
+ 
+  Publication.findAll({
+    where: { userId: req.params.id },
+    
+
+  })
+
+    .then((Publication) => res.status(200).json(Publication))
+    .catch(error => res.status(404).json({ error }))
+};
+
+
 exports.deletePublication = (req, res, next) => {
   Publication.findOne({
     where: { id: req.params.id },

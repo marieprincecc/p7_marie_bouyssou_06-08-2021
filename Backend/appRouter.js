@@ -12,6 +12,7 @@ exports.router = (function () {
 
     //users routes
     appRouter.route('/profil/:id').get(userCtrl.getOneProfil);//
+    appRouter.route('/profil/poste/:id').get(publicationCtrl.getPublicationProfil);//
     appRouter.route('/signup').post(userCtrl.signup);//
     appRouter.route('/login').post(userCtrl.login);//
     appRouter.route('/profil/:id').delete(userCtrl.deleteUser);  //ok si pas de publication

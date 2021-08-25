@@ -7,14 +7,16 @@
       <div class="card-body" id="post">
         <h5 class="card-title">
           <div class="row">
-            <div class="col-11">
+            <div class="col">
               <span @click="pushId(data.id)">
                 {{ data.title }}
               </span>
+               <span class="btn " @click="deletePoste(data.id)">x</span>
+              <div class="col">
+             
             </div>
-            <div class="col">
-              <span class="btn" @click="deletePoste(data.id)">x</span>
             </div>
+            
           </div>
         </h5>
         <p class="card-text">{{ data.texte }}</p>
@@ -27,6 +29,7 @@
               ></span
             >
           </span>
+          
         </div>
       </div>
     </div>

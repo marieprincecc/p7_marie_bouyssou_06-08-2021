@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header">{{ lastname }} {{ firstname }}</div>
+    <div class="card-header h5">{{ lastname }} {{ firstname }}</div>
     <div class="card-body">
       <h5 class="card-title">
         <div class="row">
@@ -8,10 +8,12 @@
             <span>
               {{ title }}
             </span>
-          </div>
-          <div class="col">
             <span class="btn" @click="deletePoste">x</span>
+             <div class="col">
+            
           </div>
+          </div>
+         
         </div>
       </h5>
       <p class="card-text">{{ texte }}</p>

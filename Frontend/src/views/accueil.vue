@@ -1,5 +1,6 @@
 <template>
   <navbarVue />
+  <h2>Bienvenue sur le reseau d'entreprise<br>de Groupomania</h2>
   <formPoste />
   <div class="container">
     <publicationVue />

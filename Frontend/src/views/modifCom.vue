@@ -4,10 +4,11 @@
       <div class="row " >
         <div class="col-11">
           <h5>{{lastname}} {{firstname}}</h5>
-        </div>
-          <div class="col">
+           <div class="col">
             <span class="btn" @click="supCom(id)">x</span>
           </div>
+        </div>
+         
       </div>
         <p>{{content}}</p>
     </div>
