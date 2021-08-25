@@ -19,6 +19,9 @@
                                 <li class="nav-item">
                                     <router-link class="nav-link" to="/poste">Nouvelle publication</router-link> 
                                 </li>
+                                <li class="nav-item">
+                                    <div class="nav-link" @click="deconnect">Deconnexion</div> 
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -31,7 +34,12 @@
 
 <script>
 export default {
-    
+    methods:{
+        deconnect(){
+         sessionStorage.clear()
+         this.$router.push('/login')
+        }
+    }
 };
 </script>
 
