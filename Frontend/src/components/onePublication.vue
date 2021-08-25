@@ -5,10 +5,10 @@
       <h5 class="card-title">
         <div class="row">
           <div class="col-11">
-            <span>
+         
               {{ title }}
-            </span>
-            <span class="btn" @click="deletePoste">x</span>
+       
+            <span class="btn m-3" @click="deletePoste">x</span>
              <div class="col">
             
           </div>

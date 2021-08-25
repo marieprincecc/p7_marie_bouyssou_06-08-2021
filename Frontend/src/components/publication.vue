@@ -11,7 +11,7 @@
               <span @click="pushId(data.id)">
                 {{ data.title }}
               </span>
-               <span class="btn " @click="deletePoste(data.id)">x</span>
+               <span class="btn m-3" @click="deletePoste(data.id)">x</span>
               <div class="col">
              
             </div>

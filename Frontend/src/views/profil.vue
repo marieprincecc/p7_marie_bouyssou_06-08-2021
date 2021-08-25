@@ -7,13 +7,13 @@
           </div>
           <div class="row">
             <div class="col">
-              <button class="btn" @click="deleteUser(id)">Supprimer mon compte</button>
+              <button class="btn m-3" @click="deleteUser(id)">Supprimer mon compte</button>
             </div>
 
           </div>
           
       </div>
-  <button class="btn" @click="publicationProfil(id)">Publications</button>
+  <button class="btn m-3" @click="publicationProfil(id)">Publications</button>
 </div>
 <div class="container">
  <div :key="data.id" v-for="data in publications">
