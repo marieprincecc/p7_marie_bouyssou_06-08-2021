@@ -59,7 +59,7 @@ export default {
     async deletePoste() {
       let id = sessionStorage.getItem("publicationId");
       let token = sessionStorage.getItem("token");
-      let data = await axios.delete("http://localhost:3000/api/poste/" + id, {
+       await axios.delete("http://localhost:3000/api/poste/" + id, {
         token,
       });
      
