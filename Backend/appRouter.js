@@ -4,7 +4,6 @@ const userCtrl = require('./controllers/userCtrl')
 const publicationCtrl = require('./controllers/publicationCtrl')
 const commentaireCtrl = require('./controllers/commentaireCtrl')
 const jwt = require('./utils/jwt.utils.js')
-const auth = jwt.decoderToken
 
 //exports
 
@@ -16,6 +15,7 @@ exports.router = (function(){
     appRouter.route('/signup').post(userCtrl.signup);//
     appRouter.route('/login').post(userCtrl.login);//
     appRouter.route('/profil/:id').delete(userCtrl.deleteUser);  //ok si pas de publication
+   
     //publications routes
     appRouter.route('/accueil').get(publicationCtrl.getAllPublication); //
     appRouter.route('/poste/:id').get(publicationCtrl.getOnePublication);//

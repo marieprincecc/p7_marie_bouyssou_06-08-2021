@@ -40,18 +40,20 @@ Publication.create(newPublication)
 
 exports.getOnePublication =async (req,res,next)=>{
   let acces=false
- let id = req.body.id
  let token = req.body.token
  console.log (req.body)
 order(token)
 admin(token)
 if (acces=true) {
   console.log('true')
-  Publication.findOne({
-    where: { id: req.params.id }
-   
-
-  })
+  await Publication.findOne({
+    where: { id: req.params.id },
+    include: [
+      {model: User,
+      attributes:['lastname','firstname'],
+      required: false}
+    ]
+    })
  
   .then((Publication) => res.status(200).json(Publication))
   .catch(error => res.status(404).json({ error }))
@@ -65,7 +67,7 @@ if (acces=true) {
                       //recuperation publication avec id
    
 
-exports.getAllPublication = (req,res,next)=>{
+exports.getAllPublication =async (req,res,next)=>{
  console.log(req.body)
   let acces=false
   order(req)
@@ -73,7 +75,13 @@ exports.getAllPublication = (req,res,next)=>{
   if (acces=true) {
     console.log('true')
   
-  Publication.findAll()
+  await Publication.findAll({
+    include: [
+      {model: User,
+      attributes:['lastname','firstname'],
+      required: false}
+    ]
+  })
  
     .then((Publications) => res.status(200).json(Publications))
     .catch(error => res.status(404).json({ error }))

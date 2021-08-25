@@ -22,8 +22,8 @@ module.exports = (sequelize, Sequelize) => {
    
   });
   Publication.associate=(models)=>{
-    Publication.belongsTo(models.user, {foreignKey: 'userId', as: 'user'})
-    Publication.hasMany(models.commentaire, {foreignKey: {name: 'publicationId'}, onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'publication'})
+    Publication.belongsTo(models.user)
+    Publication.hasMany(models.commentaire, {onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'publication'})
     };
   
  

@@ -1,7 +1,7 @@
 <template>
   <div class="card" >
     <div class="card-header">
-   
+   {{lastname}} {{firstname}}
     </div>
     <div class="card-body" >
       <h5 class="card-title"> 
@@ -36,7 +36,8 @@ export default {
       lastname:'',
       firstname:'',
       title:'',
-      texte:'',}
+      texte:''
+      }
     },
 
     async created(){
@@ -46,11 +47,7 @@ export default {
         
         console.log(token)
         console.log(id+"l'id")
-       let data=  await axios.get(('http://localhost:3000/api/poste/'+id),{token})
-        
-       
-        
-    
+       let data= await axios.get(('http://localhost:3000/api/poste/'+id),{token})
         
     
         console.log ("pourquoi tu n'affiche pas data")
@@ -59,7 +56,12 @@ export default {
       this.title = data.data.title
       this.texte = data.data.texte
       this.id = data.data.id
+     
+       this.lastname=data.data.user.lastname
+      this.firstname=data.data.user.firstname
     },
+    
+
     methods:{
          async deletePoste(){
          let id =  sessionStorage.getItem('publicationId')

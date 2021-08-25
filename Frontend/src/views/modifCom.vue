@@ -3,7 +3,7 @@
     <div>
       <div class="row " >
         <div class="col-11">
-          <h5>{{}}</h5>
+          <h5>{{lastname}} {{firstname}}</h5>
         </div>
           <div class="col">
             <span class="btn" @click="supCom(id)">x</span>
@@ -37,7 +37,9 @@ components:{
      data(){
        return{
          content:'',
-         id:''
+         id:'',
+          firstname: '',
+      lastname:'',
        }
      },
        async created(){
@@ -50,7 +52,9 @@ components:{
         
       ))
         this.content=data.data.content,
-        this.id=data.data.id
+        this.id=data.data.id,
+         this.lastname=data.data.user.lastname
+      this.firstname=data.data.user.firstname
     
         console.log ("pourquoi tu n'affiche pas data")
       console.log (data)

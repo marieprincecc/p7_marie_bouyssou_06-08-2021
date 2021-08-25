@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-                <h5>{{data.userId}}</h5>
+                <h5></h5>
             </div>
            
         </div>
@@ -51,12 +51,12 @@ export default {
       console.log(data)
       console.log('lalala')
         this.commentaires=data.data,
-         this.firstname=data.data.firstname,
-      this.lastname=data.data.lastname,
       this.content=data.data.content,
       this.id=data.data.id
+     
+       
       
-    console.log(data.data)
+    
      },
     
 

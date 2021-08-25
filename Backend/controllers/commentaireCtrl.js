@@ -9,116 +9,131 @@ const admin = acces.decoderTokenAdmin;
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
-const regex = /^([A-Za-z0-9\s.])*$/ 
+const regex = /^([A-Za-z0-9\s.])*$/
 
-exports.createCommentaire = (req,res,next) =>{
+exports.createCommentaire = (req, res, next) => {
   let token = req.body.token      //on recupère le token dans les headers
   console.log(req.body)
-  const decodedToken = jwt.decode(token, tokenKey); 
+  const decodedToken = jwt.decode(token, tokenKey);
   console.log(decodedToken)                 //on decode le token
   const userId = decodedToken.userId;
-     
+
   let content = req.body.content
   let id = req.body.publicationId
-  
-    Publication.findOne({
-      where: { id: id }
-    })
-    .then((Publication) =>{
+
+  Publication.findOne({
+    where: { id: id },
+
+  })
+    .then((Publication) => {
       Commentaire.create({
-        content  : content,
+        content: content,
         publicationId: Publication.id,
-        userId : userId
+        userId: userId
       })
-      .then((Commentaire) =>
-        res.status(201).json(Commentaire))
-      
-      .catch(error => res.status(400).json({ error }))
-    })
-    .catch(() =>{
-       res.status(500).json({ 'error': 'Publication introuvable' });
-   
-    
-    })
-  }
-   
-  
-  
-  
- 
-  
+        .then((Commentaire) =>
+          res.status(201).json(Commentaire))
 
-exports.modifyCommentaire = (req,res,next)=>{
-// Params
+        .catch(error => res.status(400).json({ error }))
+    })
+    .catch(() => {
+      res.status(500).json({ 'error': 'Publication introuvable' });
+
+
+    })
+}
+
+
+
+
+
+
+
+exports.modifyCommentaire = (req, res, next) => {
+  // Params
   let content = req.body.content;
-  let acces=false
+  let acces = false
   order(req)
- 
-  if (acces=true) {
-  Commentaire.findOne({
-    attributes: ['id', 'content'],
-    where: { id: req.params.id }
-  })
-  .then((Commentaire) =>{
-    Commentaire.update({
-      content: (content ? content : Commentaire.content)
+
+  if (acces = true) {
+    Commentaire.findOne({
+      attributes: ['id', 'content'],
+      where: { id: req.params.id }
     })
-      .then(()=> res.status(201).json(Commentaire))
-      .catch((error)=> res.status(400).json({error}))
-  })
-  .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
-}
+      .then((Commentaire) => {
+        Commentaire.update({
+          content: (content ? content : Commentaire.content)
+        })
+          .then(() => res.status(201).json(Commentaire))
+          .catch((error) => res.status(400).json({ error }))
+      })
+      .catch(() => res.status(500).json({ 'error': 'commentaire introuvable' }))
+  }
 }
 
-exports.getAllCommentaire = (req,res,next)=>{
+exports.getAllCommentaire = (req, res, next) => {
   console.log('est ce que je suis dans le get all com')
   Commentaire.findAll({
-    where: { PublicationId: req.params.id }
-   
-  })                   
-   
-      .then((Commentaire) => res.status(200).json(Commentaire))
-      .catch(error => res.status(404).json({ error }))
-  };
+    where: { PublicationId: req.params.id },
+    include: [
+      {
+        model: User,
+        attributes: ['lastname', 'firstname'],
+        required: false
+      }
+    ]
 
-  exports.getOneCommentaire =async (req,res,next)=>{
-    let acces=false
-    console.log(req.params.id)
-   let token = req.body.token
-   console.log (req.body)
-  order(token)
-  admin(token)
-  if (acces=true) {
-    console.log('true')
-    Commentaire.findOne({
-      where: { id: req.params.id }
-     
-  
-    })
-   
+  })
+
     .then((Commentaire) => res.status(200).json(Commentaire))
     .catch(error => res.status(404).json({ error }))
-    }else{(console.log('false')), window.location='http://localhost:8080/login'}
-  
-  }
- 
-exports.deleteCommentaire = (req, res, next) =>{
+};
+
+exports.getOneCommentaire = async (req, res, next) => {
+  let acces = false
+  console.log(req.params.id)
+  let token = req.body.token
+  console.log(req.body)
+  order(token)
+  admin(token)
+  if (acces = true) {
+    console.log('true')
+    Commentaire.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: User,
+          attributes: ['lastname', 'firstname'],
+          required: false
+        }
+      ]
+
+
+    })
+
+      .then((Commentaire) => res.status(200).json(Commentaire))
+      .catch(error => res.status(404).json({ error }))
+  } else { (console.log('false')), window.location = 'http://localhost:8080/login' }
+
+}
+
+exports.deleteCommentaire = (req, res, next) => {
   Commentaire.findOne({
     where: { id: req.params.id }
-   
+
 
   })
-  .then((Commentaire) =>{
-    let acces=false
-  order(req)
-  admin(req)
-  if (acces=true) {
-    Commentaire.destroy({ id: req.params.id })
-      .then(()=> res.status(201).json({message:'commentaire supprimé'}))
-      .catch((error)=> res.status(400).json({error}))
-  }
-  })
-  .catch(()=> res.status(500).json({ 'error': 'commentaire introuvable' }))
-  
+    .then((Commentaire) => {
+      let acces = false
+      order(req)
+      admin(req)
+      if (acces = true) {
+        Commentaire.destroy({ id: req.params.id })
+          .then(() => res.status(201).json({ message: 'commentaire supprimé' }))
+          .catch((error) => res.status(400).json({ error }))
+      }
+    })
+    .catch(() => res.status(500).json({ 'error': 'commentaire introuvable' }))
+
 };
-  
+

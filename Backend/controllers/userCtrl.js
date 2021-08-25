@@ -104,19 +104,7 @@ exports.getOneProfil = (req, res, next) => {
       .catch(error => res.status(404).json({ error }))
   };
 
-  exports.getNameUser = (req, res, next) => {  
-   
-User.findOne({ where:{ id: userId}
-})
-.then(User => {
-    let lastname = User.lastname
-    let firstname = User.firstname
-    let name = (lastname+''+firstname)
-    return name
-
-})
-.catch(error => res.status(404).json({ error }))
-};
+ 
 
   exports.deleteUser= (req, res, next) =>{
     User.findOne({
