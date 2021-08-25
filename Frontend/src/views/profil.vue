@@ -43,15 +43,13 @@ components:{
 
       let token = sessionStorage.getItem('token')
       
-      console.log('avant appel')
+     
       let data= (await axios.get(('http://localhost:3000/api/profil/'+token)))
         
       this.firstname=data.data.firstname,
       this.lastname=data.data.lastname,
       this.id=data.data.id
-      console.log('apres appel');
-      console.log(data)
-      console.log('lalala')
+     
      
      },
      methods:{

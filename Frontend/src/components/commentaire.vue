@@ -43,13 +43,11 @@ export default {
     async created(){
       let token = sessionStorage.getItem('token')
       let Id = sessionStorage.getItem('publicationId')
-      console.log('avant appel')
+     
       let data= (await axios.get(('http://localhost:3000/api/postecommentaire/'+Id),{token}
         
       ))
-      console.log('apres appel');
-      console.log(data)
-      console.log('lalala')
+     
         this.commentaires=data.data,
       this.content=data.data.content,
       this.id=data.data.id

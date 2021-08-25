@@ -13,9 +13,9 @@ const regex = /^([A-Za-z0-9\s.])*$/
 
 exports.createCommentaire = (req, res, next) => {
   let token = req.body.token      //on recupère le token dans les headers
-  console.log(req.body)
+ 
   const decodedToken = jwt.decode(token, tokenKey);
-  console.log(decodedToken)                 //on decode le token
+                //on decode le token
   const userId = decodedToken.userId;
 
   let content = req.body.content
@@ -72,7 +72,7 @@ exports.modifyCommentaire = (req, res, next) => {
 }
 
 exports.getAllCommentaire = (req, res, next) => {
-  console.log('est ce que je suis dans le get all com')
+ 
   Commentaire.findAll({
     where: { PublicationId: req.params.id },
     include: [
@@ -91,9 +91,7 @@ exports.getAllCommentaire = (req, res, next) => {
 
 exports.getOneCommentaire = async (req, res, next) => {
   let acces = false
-  console.log(req.params.id)
   let token = req.body.token
-  console.log(req.body)
   order(token)
   admin(token)
   if (acces = true) {
@@ -118,6 +116,7 @@ exports.getOneCommentaire = async (req, res, next) => {
 }
 
 exports.deleteCommentaire = (req, res, next) => {
+  
   Commentaire.findOne({
     where: { id: req.params.id }
 

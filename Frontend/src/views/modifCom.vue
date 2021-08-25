@@ -43,11 +43,10 @@ components:{
        }
      },
        async created(){
-        console.log('rentre tu dans la fonction')
+        
         let id =  sessionStorage.getItem('commentairId')
         let token = sessionStorage.getItem('token')
-        console.log(token)
-        console.log(id+"l'id")
+       
        let data= (await axios.get(('http://localhost:3000/api/poste/commentaire/'+id),{token}
         
       ))
@@ -56,8 +55,6 @@ components:{
          this.lastname=data.data.user.lastname
       this.firstname=data.data.user.firstname
     
-        console.log ("pourquoi tu n'affiche pas data")
-      console.log (data)
      
     },
 

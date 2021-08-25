@@ -32,7 +32,7 @@ data(){
      methods:{
        publier(){
           let token=sessionStorage.getItem('token')
-          console.log(token)
+         
           let texte= this.texte
           let title= this.title
 

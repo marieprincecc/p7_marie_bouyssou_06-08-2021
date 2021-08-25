@@ -1,34 +1,34 @@
 
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user",{
-     mail:{
+  const User = sequelize.define("user", {
+    mail: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true
     },
-    firstname:{
+    firstname: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    lastname:{
+    lastname: {
       type: Sequelize.STRING,
-            allowNull: false
-    } ,
+      allowNull: false
+    },
     password: {
       type: Sequelize.STRING,
-            allowNull: false,
+      allowNull: false,
     },
-    isAdmin:{
+    isAdmin: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: 1
-    }, 
-  
+    },
+
   });
-  User.associate=(models)=>{
- 
-    User.hasMany(models.publication, { onDelete: 'CASCADE',as: 'publication'})
-    User.hasMany(models.commentaire, { onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'commentaire'})
+  User.associate = (models) => {
+
+    User.hasMany(models.publication, { onDelete: 'CASCADE', as: 'publication' })
+    User.hasMany(models.commentaire, { onDelete: 'CASCADE', onUpdate: 'CASCADE', as: 'commentaire' })
   };
 
   return User;

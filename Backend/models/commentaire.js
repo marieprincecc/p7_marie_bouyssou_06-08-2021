@@ -1,32 +1,32 @@
 module.exports = (sequelize, Sequelize) => {
-  const Commentaire = sequelize.define("commentaire",{
+  const Commentaire = sequelize.define("commentaire", {
 
     userId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {         // Post belongsTo User 1:1
-          model: 'users',
-          key: 'id'
+        model: 'users',
+        key: 'id'
       }
-  },
-  publicationId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {         // Post belongsTo User 1:1
+    },
+    publicationId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {         // Post belongsTo User 1:1
         model: 'publications',
         key: 'id'
-    }
-},
-    content:{
+      }
+    },
+    content: {
       type: Sequelize.STRING,
       allowNull: false,
     }
   });
-  Commentaire.associate=(models)=>{
-    
+  Commentaire.associate = (models) => {
+
     Commentaire.belongsTo(models.user)
     Commentaire.belongsTo(models.publication)
   };
-  
+
   return Commentaire;
 };
