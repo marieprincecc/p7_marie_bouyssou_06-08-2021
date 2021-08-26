@@ -1,8 +1,8 @@
 <template>
   <div :key="data.id" v-for="data in publications">
     <div class="card">
-      <div class="card-header" id="auteur">
-        {{}} {{data.User}}
+      <div class="card-header h6">
+      {{data.user.firstname}} {{data.user.lastname}}
       </div>
       <div class="card-body" id="post">
         <h5 class="card-title">
