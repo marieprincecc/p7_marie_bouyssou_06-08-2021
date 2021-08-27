@@ -56,18 +56,13 @@ export default {
   async created() {
     let token = sessionStorage.getItem("token");
     
-    let data = await axios.get("http://localhost:3000/api/accueil", { token });
+    let data = await axios.get("http://localhost:3000/api/accueil", { token })
   
 
-    this.publications = data.data;
-    let array = data.data;
-    for (let i = 0; i < array.length; i++) {
-      let id = array[i].id;
-      let User = array[i].User;
-      let url = "http://localhost:8080/onePoste/" + id;
-      return url, User, i;
-    }
-  },
+    this.publications = data.data
+   
+    },
+  
 
   methods: {
     pushId(id) {
@@ -78,7 +73,7 @@ export default {
 
     async deletePoste(id) {
       let token = sessionStorage.getItem("token");
-      await axios.delete("http://localhost:3000/api/poste/" + id, { token });
+      await axios.delete("http://localhost:3000/api/poste/"+id, { headers:{'authorization': token }});
       this.$router.push("/accueil");
     },
   },

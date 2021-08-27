@@ -4,8 +4,6 @@ const Publication = models.publication;
 const Commentaire = models.commentaire;
 const User = models.user;
 const acces = require('../utils/jwt.utils');
-const order = acces.decoderToken;
-const admin = acces.decoderTokenAdmin;
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
@@ -13,7 +11,7 @@ const tokenKey = process.env.SECRET_KEY;
 const regex = /^([A-Za-z0-9\s.])*$/
 
 exports.createPublication = (req, res, next) => {
-  let token = req.body.token      //on recupère le token dans les headers
+  let token = req.body.token      
 
   const decodedToken = jwt.decode(token, tokenKey);
   //on decode le token
@@ -39,12 +37,7 @@ exports.createPublication = (req, res, next) => {
 
 
 exports.getOnePublication = async (req, res, next) => {
-  let acces = false
-  let token = req.body.token
-
-  order(token)
-  admin(token)
-  if (acces = true) {
+  
 
     await Publication.findOne({
       where: { id: req.params.id },
@@ -59,7 +52,7 @@ exports.getOnePublication = async (req, res, next) => {
 
       .then((Publication) => res.status(200).json(Publication))
       .catch(error => res.status(404).json({ error }))
-  } else { (console.log('false')), window.location = 'http://localhost:8080/login' }
+ 
 
 }
 
@@ -71,10 +64,7 @@ exports.getOnePublication = async (req, res, next) => {
 
 exports.getAllPublication = async (req, res, next) => {
 
-  let acces = false
-  order(req)
-  admin(req)
-  if (acces = true) {
+ 
 
 
     await Publication.findAll({
@@ -89,8 +79,7 @@ exports.getAllPublication = async (req, res, next) => {
 
       .then((Publications) => res.status(200).json(Publications))
       .catch(error => res.status(404).json({ error }))
-  } else { (console.log('false')), window.location = 'http://localhost:8080/login' }
-};
+  }
 
 exports.getPublicationProfil = (req, res, next) => {
  
@@ -105,22 +94,21 @@ exports.getPublicationProfil = (req, res, next) => {
 };
 
 
-exports.deletePublication = (req, res, next) => {
-  Publication.findOne({
-    where: { id: req.params.id },
-
-  })
-    .then((Publication) => {
-      let acces = false
-      order(req)
-      admin(req)
-      if (acces = true) {
-        Publication.destroy({ id: req.params.id }, { truncate: true })
-          .then(() => res.status(201).json({ message: 'Publication supprimé' }))
-          .catch((error) => res.status(400).json({ error }))
-      }
-    })
-    .catch(() => res.status(500).json({ 'error': 'Publication introuvable' }))
-
-};
-
+exports.deletePublication = async(req, res) => {
+  try{
+    const userId = acces.decoderTokenUser(req)
+    const isAdmin = acces.decoderTokenAdmin(req)
+    console.log(req.params.id)
+     await Publication.findOne({where: { id: req.params.id } })
+      .then((Publication) => {  
+    if(userId===Publication.userId || isAdmin === true){
+      Publication.destroy({ id: req.params.id }, { truncate: true })
+      res.status(200).json({ message: 'Publication supprimé' })
+    }else{
+      res.status(400).json({ message:"vous n'avez pas les droits" })
+    }
+  }).catch((error) => res.status(404).json({ error }))
+  }catch(error){
+    res.status(500).json({ error })
+  }
+}
