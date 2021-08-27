@@ -10,10 +10,10 @@
          
       </div>
         <p class="items-center">{{content}}</p>
-         <span class="btn" @click="supCom(id)" v-if="adminUser">Supprimer</span>
+         <span class="btn" @click="supCom(id)" v-if="mode=='admin'">Supprimer</span>
         
     </div>
-    <div class="card card-body"  v-if="user">
+    <div class="card card-body"  v-if="mode=='user'">
       <label for="com" class="form-label">Modifier votre commentaire</label>
         <div class="mb-3 md-mb-5">
           <textarea class="form-control" id="com" rows="3" placeholder="Votre texte ici" v-model="content"></textarea>
@@ -45,8 +45,7 @@ components:{
          id:'',
           firstname: '',
       lastname:'',
-      adminUser:'',
-      user: ''
+     mode:''
        }
      },
        async created(){
@@ -64,15 +63,17 @@ components:{
       this.firstname=data.data.user.firstname
        
       let userCom = data.data.userId
-           let admin= sessionStorage.getItem('isAdmin')
-        let userId= sessionStorage.getItem('userId')
-         if(userId=== userCom || admin === true){
-        this.mode='userAdmin'
-      }
-       if(userId=== userCom){
-        this.mode='user'
-      } 
-      console.log(this.user, this.adminUser)
+      
+           let admin= sessionStorage.getItem("isAdmin") //retourne ce quil faut au log
+        let userId= sessionStorage.getItem("userId")
+        console.log(sessionStorage.getItem("userId"))
+         if (userId===userCom) {
+           console.log('coucou')
+       return this.mode = "user";
+      } else if (admin === "true" ||userId===userCom ) {
+       return this.mode = "admin"
+        
+      } console.log (this.mode)
        
      
     },

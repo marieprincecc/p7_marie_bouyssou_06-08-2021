@@ -11,7 +11,7 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-           <span type='submit' class="btn text-dark" v-on:click="firstfunction(data.id)" > Modifier/Supprimer
+           <span type='submit' class="btn text-dark" v-on:click="firstfunction(data.id)" v-if="(adminUser)=true"> Modifier/Supprimer
    </span>
     
                
@@ -36,7 +36,9 @@ export default {
        firstname: '',
       lastname:'',
       content:'',
-      id:''
+      id:'',
+       adminUser:'',
+      user: ''
     }
      },
 
@@ -55,7 +57,15 @@ export default {
       this.firstname=data.user.firstname
       this.lastname=data.user.lastname
      
-       
+        let userCom = data.data.userId
+           let admin= sessionStorage.getItem('isAdmin')
+        let userId= sessionStorage.getItem('userId')
+         if(userId=== userCom || admin === true){
+        this.$adminUser='true'
+      }
+       if(userId=== userCom ){
+        this.$user='true'
+      } 
       
     
      },

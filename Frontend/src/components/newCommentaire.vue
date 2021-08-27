@@ -43,6 +43,14 @@ export default {
 
   methods: {
     afficheCom() {
+      let admin= sessionStorage.getItem('isAdmin')
+      let userId = sessionStorage.getItem('userId')
+       if(userId===this.$userCom || admin === true){
+        this.$adminUser='true'
+      }
+       if(userId=== this.$userCom ){
+        this.$user='true'
+      } 
       if (this.mode == "invisible") {
         this.mode = "visible";
 
