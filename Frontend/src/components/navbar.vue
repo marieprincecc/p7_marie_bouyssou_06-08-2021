@@ -17,7 +17,7 @@
                                     <router-link class="nav-link" to="/profil">Profil</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link" to="/poste">Nouvelle publication</router-link> 
+                                    <router-link class="nav-link" to="/accueil">Nouvelle publication</router-link> 
                                 </li>
                                 <li class="nav-item">
                                     <div class="nav-link" @click="deconnect">Deconnexion</div> 

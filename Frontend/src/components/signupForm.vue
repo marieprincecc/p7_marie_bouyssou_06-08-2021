@@ -34,9 +34,19 @@ methods:{
         mail: this.mail,
         password: this.password
          })  
-         .then(()=>{this.$router.push('/login')})
+         .then(()=>{
+            this.lastname=''
+            this.firstname=''
+            this.mail=''
+            this.password=''
+            this.$router.push('/login')})
 
-         .catch(()=>{this.$router.push('/signup')})
+         .catch(()=>{
+            this.lastname=''
+            this.firstname=''
+            this.mail=''
+            this.password=''
+            this.$router.push('/signup')})
     }
 }
 }

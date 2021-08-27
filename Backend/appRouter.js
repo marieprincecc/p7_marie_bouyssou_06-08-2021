@@ -12,11 +12,13 @@ exports.router = (function () {
 
     //users routes
     appRouter.route('/profil/:id').get(userCtrl.getOneProfil);//
+    appRouter.route('/profilOther/:id').get(userCtrl.getProfilOther);//
     appRouter.route('/profil/poste/:id').get(publicationCtrl.getPublicationProfil);//
     appRouter.route('/signup').post(userCtrl.signup);//
     appRouter.route('/login').post(userCtrl.login);//
     appRouter.route('/profil/:id').delete(userCtrl.deleteUser);  //ok si pas de publication
-
+    appRouter.route('/auth').get(jwt.decoderTokenAdmin);
+    appRouter.route('/authUser').get(jwt.decoderTokenUser)
     //publications routes
     appRouter.route('/accueil').get(publicationCtrl.getAllPublication); //
     appRouter.route('/poste/:id').get(publicationCtrl.getOnePublication);//

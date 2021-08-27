@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-                <h5></h5>
+                <h5>{{data.user.firstname}} {{data.user.lastname}} </h5>
             </div>
            
         </div>
@@ -11,7 +11,7 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-           <span type='submit' class="btn text-dark" v-on:click="firstfunction(data.id)"> Modifier/Supprimer
+           <span type='submit' class="btn text-dark" v-on:click="firstfunction(data.id)" > Modifier/Supprimer
    </span>
     
                
@@ -41,16 +41,19 @@ export default {
      },
 
     async created(){
+        
       let token = sessionStorage.getItem('token')
       let Id = sessionStorage.getItem('publicationId')
      
       let data= (await axios.get(('http://localhost:3000/api/postecommentaire/'+Id),{ headers:{'authorization': token }}
         
       ))
-     
+     console.log(data)
         this.commentaires=data.data,
       this.content=data.data.content,
       this.id=data.data.id
+      this.firstname=data.user.firstname
+      this.lastname=data.user.lastname
      
        
       

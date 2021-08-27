@@ -4,23 +4,23 @@ const Commentaire = models.commentaire;
 const User = models.user;
 const jwt = require('jsonwebtoken');
 const acces = require('../utils/jwt.utils');
-const order = acces.decoderToken;
-const admin = acces.decoderTokenAdmin;
 require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
-const regex = /^([A-Za-z0-9\s.])*$/
 
-exports.createCommentaire = (req, res, next) => {
-  let token = req.body.token      //on recupère le token dans les headers
- 
-  const decodedToken = jwt.decode(token, tokenKey);
-                //on decode le token
-  const userId = decodedToken.userId;
+exports.createCommentaire = (req, res) => {
+  let token = req.headers.authorization
+  if (token === null) {
 
-  let content = req.body.content
-  let id = req.body.publicationId
-
+    return res.status(403).json({ message: 'acces refusé' })
+  } else {
+    const decodedToken = jwt.decode(token, tokenKey);
+    const userId = decodedToken.userId;
+    let content = req.body.content
+    let id = req.body.publicationId
+    if (content == '') {
+      return res.status(400).json({ message: 'formulaire incomplet' })
+    }else{
   Publication.findOne({
     where: { id: id },
 
@@ -34,45 +34,59 @@ exports.createCommentaire = (req, res, next) => {
         .then((Commentaire) =>
           res.status(201).json(Commentaire))
 
-        .catch(error => res.status(400).json({ error }))
+        .catch(error => res.status(500).json({ error }))
     })
     .catch(() => {
-      res.status(500).json({ 'error': 'Publication introuvable' });
+      res.status(404).json({ message: 'Publication introuvable' });
 
 
     })
-}
-
-
-
-
-
-
-
-exports.modifyCommentaire = (req, res, next) => {
-  // Params
-  let content = req.body.content;
-  let acces = false
-  order(req)
-
-  if (acces = true) {
-    Commentaire.findOne({
-      attributes: ['id', 'content'],
-      where: { id: req.params.id }
-    })
-      .then((Commentaire) => {
-        Commentaire.update({
-          content: (content ? content : Commentaire.content)
-        })
-          .then(() => res.status(201).json(Commentaire))
-          .catch((error) => res.status(400).json({ error }))
-      })
-      .catch(() => res.status(500).json({ 'error': 'commentaire introuvable' }))
   }
 }
+}
+
+
+
+
+
+
+
+exports.modifyCommentaire = async(req, res) => {
+  let token = req.headers.authorization
+  if (token === null) {
+
+    return res.status(403).json({ message: 'acces refusé' })
+  } else {
+  try{
+    const userId = acces.decoderTokenUser(req)
+    let content = req.body.content
+     await Commentaire.findOne({where: { id: req.params.id } })
+      .then((Commentaire) => {  
+        if(userId===Commentaire.userId){
+          console.log('dans le if'+userId+Commentaire.userId)
+          
+      Commentaire.update({
+        content: (content ? content : Commentaire.content)
+      })
+        .then(() => res.status(201).json(Commentaire))
+        .catch((error) => res.status(500).json({ error }))
+      }else{
+        res.status(403).json({ message:"vous n'avez pas les droits" })}
+      })
+    
+  }catch(error){
+    res.status(500).json({ error })
+  }
+  }
+}
+ 
 
 exports.getAllCommentaire = (req, res, next) => {
- 
+  let token = req.headers.authorization
+  if (token === null) {
+
+    return res.status(403).json({ message: 'acces refusé' })
+  } else {
   Commentaire.findAll({
     where: { PublicationId: req.params.id },
     include: [
@@ -87,16 +101,19 @@ exports.getAllCommentaire = (req, res, next) => {
 
     .then((Commentaire) => res.status(200).json(Commentaire))
     .catch(error => res.status(404).json({ error }))
-};
+}
+}
 
-exports.getOneCommentaire = async (req, res, next) => {
-  let acces = false
-  let token = req.body.token
-  order(token)
-  admin(token)
-  if (acces = true) {
-    console.log('true')
-    Commentaire.findOne({
+exports.getOneCommentaire = async (req, res) => {
+  let token = req.headers.authorization
+  if (token === null) {
+
+    return res.status(403).json({ message: 'acces refusé' })
+  } else {
+  try{
+    const userId = acces.decoderTokenUser(req)
+    const isAdmin = acces.decoderTokenAdmin(req)
+    await Commentaire.findOne({
       where: { id: req.params.id },
       include: [
         {
@@ -109,10 +126,18 @@ exports.getOneCommentaire = async (req, res, next) => {
 
     })
 
-      .then((Commentaire) => res.status(200).json(Commentaire))
+      .then((Commentaire) =>{
+        if(userId===Commentaire.userId || isAdmin === true){
+          res.status(200).json(Commentaire)
+        }else{
+          res.status(403).json({ message:'acces refusé' })
+        }
+      })
       .catch(error => res.status(404).json({ error }))
-  } else { (console.log('false')), window.location = 'http://localhost:8080/login' }
-
+  }catch(error){
+    res.status(500).json({ error })
+  }
+}
 }
 
 exports.deleteCommentaire = async(req, res, next) => {
@@ -126,7 +151,7 @@ try{
     Commentaire.destroy({ id: req.params.id }, { truncate: true })
     res.status(200).json({ message: 'Commentaire supprimé' })
   }else{
-    res.status(400).json({ message:"vous n'avez pas les droits" })
+    res.status(403).json({ message:"vous n'avez pas les droits" })
   }
 }).catch((error) => res.status(404).json({ error }))
 }catch(error){

@@ -1,17 +1,17 @@
 <template>
   <div :key="data.id" v-for="data in publications">
     <div class="card">
-      <div class="card-header h6">
+      <span class="card-header h6" @click="pushProfil(data.user.id)">
       {{data.user.firstname}} {{data.user.lastname}}
-      </div>
+      </span>
       <div class="card-body" id="post">
         <h5 class="card-title">
           <div class="row">
             <div class="col">
-              <span @click="pushId(data.id)">
+              <span>
                 {{ data.title }}
               </span>
-               <span class="btn m-3" @click="deletePoste(data.id)">x</span>
+              
               <div class="col">
              
             </div>
@@ -68,14 +68,17 @@ export default {
     pushId(id) {
       let poste = id;
       sessionStorage.setItem("publicationId", poste);
+      
       this.$router.push("/poste");
     },
 
-    async deletePoste(id) {
-      let token = sessionStorage.getItem("token");
-      await axios.delete("http://localhost:3000/api/poste/"+id, { headers:{'authorization': token }});
-      this.$router.push("/accueil");
+     pushProfil(id) {
+      
+      
+      this.$router.push("/profilOther/"+id);
     },
+
+   
   },
 };
 </script>

@@ -29,11 +29,17 @@ export default {
         })
 
         .then((res) => {
-         
+          console.log(res.data.isAdmin)
           sessionStorage.setItem("token", res.data.token);
+          sessionStorage.setItem("isAdmin",res.data.isAdmin);
+          sessionStorage.setItem('userId',res.data.userId)
+          this.mail=''
+          this.password=''
           this.$router.push("/accueil");
         })
         .catch(() => {
+           this.mail=""
+          this.password=''
           this.$router.push("/login");
         });
     },

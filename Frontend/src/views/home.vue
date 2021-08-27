@@ -17,7 +17,6 @@
 <script>
 
 import signupForm from '../components/signupForm.vue'
-import{ mapState } from 'vuex'
 
 export default {
   name: 'home',
@@ -33,9 +32,7 @@ data() {
 }
 },
  
-computed:{
- ...mapState([status])
-},
+
 methods:{
      switchConnexion(){
       this.$router.push('/login')

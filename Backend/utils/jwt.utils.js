@@ -12,7 +12,9 @@ exports.genererToken = (User) => {
 }
 exports.decoderTokenUser = (req) => {
   console.log('on decode')
+  
    const token = req.headers.authorization   
+   console.log('ca passe?')
    console.log(token)      //on recupère le token
     const decodedToken = jwt.verify(token, tokenKey);  
     const userId = decodedToken.userId
@@ -23,7 +25,7 @@ exports.decoderTokenUser = (req) => {
 exports.decoderTokenAdmin = (req) => {
   console.log('on decode 2')
    const token = req.headers.authorization   
-   console.log(token)      //on recupère le token
+      //on recupère le token
     const decodedToken = jwt.verify(token, tokenKey);  
     const isAdmin = decodedToken.isAdmin    
       console.log(isAdmin+'++pourqoi pas la')

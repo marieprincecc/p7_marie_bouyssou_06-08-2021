@@ -15,6 +15,7 @@ export default {
 <style lang="css">
 #app {
   text-align: center;
-}
+};
+
 
 </style>

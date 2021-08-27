@@ -32,19 +32,22 @@ data(){
      methods:{
        publier(){
           let token=sessionStorage.getItem('token')
-         
+         console.log(token)
           let texte= this.texte
           let title= this.title
 
-         axios.post('http://localhost:3000/api/poste', { headers:{'authorization': token },
+         axios.post('http://localhost:3000/api/poste',  
             
-           body:{texte: texte,
-            title: title}
-         }
+           {texte: texte,
+            title: title},
+            {headers:{'authorization': token }}
+
            
           )
+         this.$nextTick()
+          
+       
         
-         this.$router.push('/accueil')
              
      }  
     }

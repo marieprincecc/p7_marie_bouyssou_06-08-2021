@@ -8,7 +8,7 @@
          
               {{ title }}
        
-            <span class="btn m-3" @click="deletePoste">x</span>
+          
              <div class="col">
             
           </div>

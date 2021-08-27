@@ -1,6 +1,7 @@
 <template>
   <navbarVue />
   <h2>Bienvenue sur le reseau d'entreprise<br>de Groupomania</h2>
+ 
   <formPoste />
   <div class="container">
     <publicationVue />
@@ -29,15 +30,17 @@ export default {
       texte: "",
       index: "",
       id: "",
+     admin:sessionStorage.getItem('isAdmin')
     };
   },
 
+ 
+
   async created() {
+  
     let token = sessionStorage.getItem("token");
-    
-    const data = await axios.get("http://localhost:3000/api/accueil", {
-      token,
-    });
+   
+    const data = await axios.get("http://localhost:3000/api/accueil",{ headers:{'authorization': token }});
   
     this.publications = data.data;
     this.title = data.data.title;

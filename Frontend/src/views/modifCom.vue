@@ -1,18 +1,19 @@
 <template>
    <navbarVue/>
+   
+  <div >
     <div>
       <div class="row " >
-        <div class="col-11">
-          <h5>{{lastname}} {{firstname}}</h5>
-           <div class="col">
-            <span class="btn" @click="supCom(id)">x</span>
-          </div>
+        <div class="col">
+          <h5 class="items-center">{{lastname}} {{firstname}}</h5>
         </div>
          
       </div>
-        <p>{{content}}</p>
+        <p class="items-center">{{content}}</p>
+         <span class="btn" @click="supCom(id)" v-if="adminUser">Supprimer</span>
+        
     </div>
-    <div class="card card-body">
+    <div class="card card-body"  v-if="user">
       <label for="com" class="form-label">Modifier votre commentaire</label>
         <div class="mb-3 md-mb-5">
           <textarea class="form-control" id="com" rows="3" placeholder="Votre texte ici" v-model="content"></textarea>
@@ -23,6 +24,9 @@
         </div>
     </div>
   </div>
+  
+  </div>
+  
 </template>
 
 <script>
@@ -41,40 +45,58 @@ components:{
          id:'',
           firstname: '',
       lastname:'',
+      adminUser:'',
+      user: ''
        }
      },
        async created(){
-        
+       
         let id =  sessionStorage.getItem('commentairId')
         let token = sessionStorage.getItem('token')
        
-       let data= (await axios.get(('http://localhost:3000/api/poste/commentaire/'+id),{token}
+       let data= (await axios.get(('http://localhost:3000/api/poste/commentaire/'+id),{ headers:{'authorization': token }}
         
       ))
+     console.log(data)
         this.content=data.data.content,
         this.id=data.data.id,
          this.lastname=data.data.user.lastname
       this.firstname=data.data.user.firstname
-    
+       
+      let userCom = data.data.userId
+           let admin= sessionStorage.getItem('isAdmin')
+        let userId= sessionStorage.getItem('userId')
+         if(userId=== userCom || admin === true){
+        this.mode='userAdmin'
+      }
+       if(userId=== userCom){
+        this.mode='user'
+      } 
+      console.log(this.user, this.adminUser)
+       
      
     },
 
      methods:{
+      
+        
         async modify(id){
          
          let token=sessionStorage.getItem('token')
           let content= this.content   
-          await axios.put('http://localhost:3000/api/poste/commentaire/'+id,{
-
-            content:content,
-            token:token
+          await axios.put('http://localhost:3000/api/poste/commentaire/'+id,
+           {
+              content:content,
+            },
+            { headers:{'authorization': token }
           })
-          this.$router.push('/poste')
+         
+         
     },
     async supCom(id){
           
           let token = sessionStorage.getItem('token')
-          await axios.delete(('http://localhost:3000/api/poste/commentaire/'+id),{token})
+          await axios.delete(('http://localhost:3000/api/poste/commentaire/'+id),{ headers:{'authorization': token }})
            this.$router.push('/poste')
     }
      }

@@ -58,16 +58,18 @@ export default {
       let token = sessionStorage.getItem("token");
       let content = this.content;
 
-      await axios.post("http://localhost:3000/api//poste/commentaire", { headers:{'authorization': token },
-      body: {
+      await axios.post("http://localhost:3000/api//poste/commentaire",
+     {
          content: content,
           publicationId: publicationId,
-      }
-      })
+      },
+      {headers:{'authorization':token}}
+      )
        
     
     
-      this.$router.push("/poste")
+      this.$nextTick()
+      this.content=''
       this.mode = "visible"
     }
   }}
