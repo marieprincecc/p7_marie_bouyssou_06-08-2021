@@ -44,7 +44,7 @@ export default {
       let token = sessionStorage.getItem('token')
       let Id = sessionStorage.getItem('publicationId')
      
-      let data= (await axios.get(('http://localhost:3000/api/postecommentaire/'+Id),{token}
+      let data= (await axios.get(('http://localhost:3000/api/postecommentaire/'+Id),{ headers:{'authorization': token }}
         
       ))
      

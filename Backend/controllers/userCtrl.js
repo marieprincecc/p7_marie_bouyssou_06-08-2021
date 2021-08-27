@@ -103,19 +103,21 @@ exports.getOneProfil = (req, res, next) => {
 
 
 
-exports.deleteUser = (req, res, next) => {
-    User.findOne({
-        where: { id: req.params.id }
-    })
-        .then((User) => {
-            let acces = false
-            order(req)
-            admin(req)
-            if (acces = true) {
-                User.destroy({ id: req.params.id }, { truncate: true })
-                    .then(() => res.status(201).json({ message: 'User supprimé' }))
-                    .catch((error) => res.status(400).json({ error }))
-            }
-        })
-        .catch(() => res.status(500).json({ 'error': 'User introuvable' }))
-};
+exports.deleteUser = async(req, res, next) => {
+    try{
+        const userId = acces.decoderTokenUser(req)
+        const isAdmin = acces.decoderTokenAdmin(req)
+        
+         await User.findOne({where: { id: req.params.id } })
+          .then((User) => {  
+        if(userId===User.id|| isAdmin === true){
+          User.destroy({ id: req.params.id }, { truncate: true })
+          res.status(200).json({ message: 'User supprimé' })
+        }else{
+          res.status(400).json({ message:"vous n'avez pas les droits" })
+        }
+      }).catch((error) => res.status(404).json({ error }))
+      }catch(error){
+        res.status(500).json({ error })
+      }
+    }

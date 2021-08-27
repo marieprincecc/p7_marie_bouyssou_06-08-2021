@@ -8,11 +8,12 @@ require('dotenv').config({ path: '../variables.env' });
 const tokenKey = process.env.SECRET_KEY;
 
 
-const regex = /^([A-Za-z0-9\s.])*$/
 
 exports.createPublication = (req, res, next) => {
-  let token = req.body.token      
-
+  let token = req.headers.token      
+if (token!= null) {
+  
+}
   const decodedToken = jwt.decode(token, tokenKey);
   //on decode le token
   const userId = decodedToken.userId;
@@ -98,7 +99,7 @@ exports.deletePublication = async(req, res) => {
   try{
     const userId = acces.decoderTokenUser(req)
     const isAdmin = acces.decoderTokenAdmin(req)
-    console.log(req.params.id)
+    
      await Publication.findOne({where: { id: req.params.id } })
       .then((Publication) => {  
     if(userId===Publication.userId || isAdmin === true){

@@ -115,24 +115,21 @@ exports.getOneCommentaire = async (req, res, next) => {
 
 }
 
-exports.deleteCommentaire = (req, res, next) => {
+exports.deleteCommentaire = async(req, res, next) => {
+try{
+  const userId = acces.decoderTokenUser(req)
+  const isAdmin = acces.decoderTokenAdmin(req)
   
-  Commentaire.findOne({
-    where: { id: req.params.id }
-
-
-  })
-    .then((Commentaire) => {
-      let acces = false
-      order(req)
-      admin(req)
-      if (acces = true) {
-        Commentaire.destroy({ id: req.params.id })
-          .then(() => res.status(201).json({ message: 'commentaire supprimé' }))
-          .catch((error) => res.status(400).json({ error }))
-      }
-    })
-    .catch(() => res.status(500).json({ 'error': 'commentaire introuvable' }))
-
-};
-
+   await Commentaire.findOne({where: { id: req.params.id } })
+    .then((Commentaire) => {  
+  if(userId===Commentaire.userId || isAdmin === true){
+    Commentaire.destroy({ id: req.params.id }, { truncate: true })
+    res.status(200).json({ message: 'Commentaire supprimé' })
+  }else{
+    res.status(400).json({ message:"vous n'avez pas les droits" })
+  }
+}).catch((error) => res.status(404).json({ error }))
+}catch(error){
+  res.status(500).json({ error })
+}
+}

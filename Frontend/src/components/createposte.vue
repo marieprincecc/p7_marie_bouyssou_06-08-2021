@@ -36,12 +36,13 @@ data(){
           let texte= this.texte
           let title= this.title
 
-         axios.post('http://localhost:3000/api/poste',{
+         axios.post('http://localhost:3000/api/poste', { headers:{'authorization': token },
             
-           texte: texte,
-            title: title,
-            token: token
-          })
+           body:{texte: texte,
+            title: title}
+         }
+           
+          )
         
          this.$router.push('/accueil')
              

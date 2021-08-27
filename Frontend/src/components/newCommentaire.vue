@@ -48,28 +48,30 @@ export default {
 
        
       } else if (this.mode == "visible") {
-        this.mode = "invisible";
+        this.mode = "invisible"
         
       }
     },
     async publierCom() {
+      
       let publicationId = sessionStorage.getItem("publicationId");
       let token = sessionStorage.getItem("token");
       let content = this.content;
 
-      console.log(publicationId);
-
-      await axios.post("http://localhost:3000/api//poste/commentaire", {
-        content: content,
-        token: token,
-        publicationId: publicationId,
-      });
+      await axios.post("http://localhost:3000/api//poste/commentaire", { headers:{'authorization': token },
+      body: {
+         content: content,
+          publicationId: publicationId,
+      }
+      })
+       
     
-      this.$router.push("/poste");
-      this.mode = "visible";
-    },
-  },
-};
+    
+      this.$router.push("/poste")
+      this.mode = "visible"
+    }
+  }}
+
 </script>
 
 <style>

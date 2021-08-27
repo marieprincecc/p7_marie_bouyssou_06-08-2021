@@ -56,7 +56,7 @@ export default {
   async created() {
     let token = sessionStorage.getItem("token");
     
-    let data = await axios.get("http://localhost:3000/api/accueil", { token })
+    let data = await axios.get("http://localhost:3000/api/accueil", {  headers:{'authorization': token } })
   
 
     this.publications = data.data

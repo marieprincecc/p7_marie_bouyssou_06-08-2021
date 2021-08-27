@@ -44,7 +44,7 @@ export default {
 
    
     let data = await axios.get("http://localhost:3000/api/poste/" + id, {
-      token,
+      headers:{'authorization': token }
     });
 
    
@@ -62,7 +62,7 @@ export default {
       let id = sessionStorage.getItem("publicationId");
       let token = sessionStorage.getItem("token");
        await axios.delete("http://localhost:3000/api/poste/" + id, {
-        token,
+       headers:{'authorization': token }
       });
      
       sessionStorage.removeItem("publicationId");
