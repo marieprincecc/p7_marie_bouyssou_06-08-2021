@@ -2,7 +2,7 @@
   <div :key="data.id" v-for="data in publications">
     <div class="card">
       <span class="card-header h6" @click="pushProfil(data.user.id)">
-      {{data.user.firstname}} {{data.user.lastname}}
+        {{ data.user.firstname }} {{ data.user.lastname }}
       </span>
       <div class="card-body" id="post">
         <h5 class="card-title">
@@ -11,12 +11,9 @@
               <span>
                 {{ data.title }}
               </span>
-              
-              <div class="col">
-             
+
+              <div class="col"></div>
             </div>
-            </div>
-            
           </div>
         </h5>
         <p class="card-text">{{ data.texte }}</p>
@@ -29,7 +26,6 @@
               ></span
             >
           </span>
-          
         </div>
       </div>
     </div>
@@ -55,30 +51,25 @@ export default {
 
   async created() {
     let token = sessionStorage.getItem("token");
-    
-    let data = await axios.get("http://localhost:3000/api/accueil", {  headers:{'authorization': token } })
-  
 
-    this.publications = data.data
-   
-    },
-  
+    let data = await axios.get("http://localhost:3000/api/accueil", {
+      headers: { authorization: token },
+    });
+
+    this.publications = data.data;
+  },
 
   methods: {
     pushId(id) {
       let poste = id;
       sessionStorage.setItem("publicationId", poste);
-      
+
       this.$router.push("/poste");
     },
 
-     pushProfil(id) {
-      
-      
-      this.$router.push("/profilOther/"+id);
+    pushProfil(id) {
+      this.$router.push("/profilOther/" + id);
     },
-
-   
   },
 };
 </script>

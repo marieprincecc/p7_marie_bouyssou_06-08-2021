@@ -5,15 +5,10 @@
       <h5 class="card-title">
         <div class="row">
           <div class="col-11">
-         
-              {{ title }}
-       
-          
-             <div class="col">
-            
+            {{ title }}
+
+            <div class="col"></div>
           </div>
-          </div>
-         
         </div>
       </h5>
       <p class="card-text">{{ texte }}</p>
@@ -38,16 +33,13 @@ export default {
   },
 
   async created() {
-   
     let id = sessionStorage.getItem("publicationId");
     let token = sessionStorage.getItem("token");
 
-   
     let data = await axios.get("http://localhost:3000/api/poste/" + id, {
-      headers:{'authorization': token }
+      headers: { authorization: token },
     });
 
-   
     this.publication = data.data;
     this.title = data.data.title;
     this.texte = data.data.texte;
@@ -61,10 +53,10 @@ export default {
     async deletePoste() {
       let id = sessionStorage.getItem("publicationId");
       let token = sessionStorage.getItem("token");
-       await axios.delete("http://localhost:3000/api/poste/" + id, {
-       headers:{'authorization': token }
+      await axios.delete("http://localhost:3000/api/poste/" + id, {
+        headers: { authorization: token },
       });
-     
+
       sessionStorage.removeItem("publicationId");
       this.$router.push("/accueil");
     },

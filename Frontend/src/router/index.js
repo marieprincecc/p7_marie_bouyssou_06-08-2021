@@ -1,6 +1,6 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import welcome from '../views/welcome.vue'
-import home from'../views/home.vue';
+import home from '../views/home.vue';
 import accueil from '../views/accueil.vue';
 import poste from '../views/poste.vue';
 import profil from '../views/profil.vue';
@@ -14,18 +14,18 @@ import profilOther from '../views/profilOther.vue';
 
 const routes = [
     {
-        name:'welcome',
-        path:'/',
-        component:welcome
+        name: 'welcome',
+        path: '/',
+        component: welcome
     },
     {
-        name:'home',
-        path:'/signup',
+        name: 'home',
+        path: '/signup',
         component: home
     },
     {
-        name:'login',
-        path:'/login',
+        name: 'login',
+        path: '/login',
         component: login
     },
     {
@@ -37,7 +37,7 @@ const routes = [
     {
         name: 'poste',
         path: '/poste',
-        component: poste   
+        component: poste
     },
 
     {
@@ -46,19 +46,19 @@ const routes = [
         component: profil
     },
     {
-        name:'profilOther',
-        path:'/profilOther/:id',
+        name: 'profilOther',
+        path: '/profilOther/:id',
         component: profilOther
     },
 
     {
-        name:'commentaire',
+        name: 'commentaire',
         path: '/poste/commentaire',
-        component: poste  
+        component: poste
     },
     {
-        name:'modifyCom',
-        path:'/poste/commentaire/:id',
+        name: 'modifyCom',
+        path: '/poste/commentaire/:id',
         component: modifyCom
     }
 

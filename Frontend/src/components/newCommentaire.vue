@@ -38,44 +38,40 @@ export default {
     return {
       content: "",
       mode: "invisible",
-       userId:'',
+      userId: "",
     };
   },
 
   methods: {
     afficheCom() {
-     
       if (this.mode == "invisible") {
         this.mode = "visible";
-        console.log('visible')
-       
+        console.log("visible");
       } else if (this.mode == "visible") {
-        this.mode = "invisible"
-        console.log('invisible')
+        this.mode = "invisible";
+        console.log("invisible");
       }
     },
     async publierCom() {
-      
       let publicationId = sessionStorage.getItem("publicationId");
       let token = sessionStorage.getItem("token");
       let content = this.content;
 
-      await axios.post("http://localhost:3000/api//poste/commentaire",
-     {
-         content: content,
+      await axios.post(
+        "http://localhost:3000/api//poste/commentaire",
+        {
+          content: content,
           publicationId: publicationId,
-      },
-      {headers:{'authorization':token}}
-      )
-       
-    
-    
-      this.$nextTick()
-      this.content=''
-      this.mode = "visible"
-    }
-  }}
+        },
+        { headers: { authorization: token } }
+      );
 
+      this.$nextTick();
+      this.content = "";
+      this.mode = "visible";
+    },
+  },
+};
 </script>
 
 <style>

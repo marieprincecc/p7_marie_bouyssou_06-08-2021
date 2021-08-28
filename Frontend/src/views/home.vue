@@ -1,56 +1,38 @@
 <template>
   <img alt="Groupomania logo" src="../assets/icon-above-font.png" />
- 
-  <h1 >Inscription</h1>
-  
-    
-  
-  
-    <signupForm/>
- 
-  
-  
-  <button @click="switchConnexion">J'ai déjà un compte</button>
 
+  <h1>Inscription</h1>
+
+  <signupForm />
+
+  <button @click="switchConnexion">J'ai déjà un compte</button>
 </template>
 
 <script>
-
-import signupForm from '../components/signupForm.vue'
+import signupForm from "../components/signupForm.vue";
 
 export default {
-  name: 'home',
-data() {
-  return{
-  
-  lastname:'',
-  firstname:'',
-  mail:'',
-  password:'',
-  token:'',
-  userId:'',
-}
-},
- 
+  name: "home",
+  data() {
+    return {
+      lastname: "",
+      firstname: "",
+      mail: "",
+      password: "",
+      token: "",
+      userId: "",
+    };
+  },
 
-methods:{
-     switchConnexion(){
-      this.$router.push('/login')
+  methods: {
+    switchConnexion() {
+      this.$router.push("/login");
     },
-
-   
-
-   
-},
-components:{
+  },
+  components: {
     signupForm,
-   
-}
-} 
-      
-    
-
-
+  },
+};
 </script>
 
 <style scoped lang="css">
@@ -71,7 +53,7 @@ button {
   margin: 8px;
 }
 a {
-    text-decoration: none;
-    color: #fd2d01;
+  text-decoration: none;
+  color: #fd2d01;
 }
 </style>

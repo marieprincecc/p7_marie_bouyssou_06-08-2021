@@ -50,6 +50,6 @@ Nom
 Prénom
 Une adresse mail valide
 Un mot de passe (de  à 8 caractères, au moin 1 chiffre). Votre compte peut être supprimé par vous-même ainsi que par l'administrateur.
-Une fois connecté vous pouvez voir les publications des utilisateurs et publier au choix:
+Une fois connecté vous pouvez voir les publications des utilisateurs et :
 
-une publication, commentées, modifiées, supprimées. Le modérateur peut les supprimer.
+une publier, commenter, modifier, supprimer vos publications. Le modérateur peut les supprimer également, il peu egalement suprimer les profils en cliquant sur leur nom sur la page d'accueil, et supprimer les commentaire il ne peu juste pas les modifier.

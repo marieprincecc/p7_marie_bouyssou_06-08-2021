@@ -12,23 +12,22 @@ exports.genererToken = (User) => {
 }
 exports.decoderTokenUser = (req) => {
   console.log('on decode')
-  
-   const token = req.headers.authorization   
-   console.log('ca passe?')
-   console.log(token)      //on recupère le token
-    const decodedToken = jwt.verify(token, tokenKey);  
-    const userId = decodedToken.userId
-      console.log('pourqoi âs pa'+  userId)
-      return userId;
+
+  const token = req.headers.authorization
+  console.log('ca passe?')
+  console.log(token)      //on recupère le token
+  const decodedToken = jwt.verify(token, tokenKey);
+  const userId = decodedToken.userId
+  console.log('pourqoi âs pa' + userId)
+  return userId;
 }
 
 exports.decoderTokenAdmin = (req) => {
   console.log('on decode 2')
-   const token = req.headers.authorization   
-      //on recupère le token
-    const decodedToken = jwt.verify(token, tokenKey);  
-    const isAdmin = decodedToken.isAdmin    
-      console.log(isAdmin+'++pourqoi pas la')
-      return isAdmin;
+  const token = req.headers.authorization
+  //on recupère le token
+  const decodedToken = jwt.verify(token, tokenKey);
+  const isAdmin = decodedToken.isAdmin
+  console.log(isAdmin + '++pourqoi pas la')
+  return isAdmin;
 }
-   
