@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-              <span class="h4">{{UserId}} {{data.user.id}}</span>  
+              <span class="h4">{{data.user.firstname}} {{data.user.lastname}}</span>  
             </div>
            
         </div>
@@ -12,9 +12,9 @@
     <div class="row align-items-center">
         <div class="col">
           
-    <span class="btn" @click="firstfunction(data.id)" v-if="mode=='admin'">Modifier/Supprimer</span>
+    <span class="btn" @click="firstfunction(data.id)" v-if="mode=='admin' || UserId==data.user.id">Modifier/Supprimer</span>
    
-    <span class="btn" @click="firstfunction(data.id)" v-if="UserId==data.user.id" >Modifier/Supprimer</span>           
+              
            
         </div>
     </div>
