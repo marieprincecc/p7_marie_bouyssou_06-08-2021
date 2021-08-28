@@ -20,8 +20,10 @@
         </div>
       <div class="row align-items-center">
         <div class="col">
-            <button type="submit" class="btn mb-3  w-25 " @click="modify(id)" >Modifier</button>
+            <span class="btn" @click="modify(id)" >Modifier</span>
+           
         </div>
+          <span class="btn" @click="supCom(id)" >Supprimer</span>
     </div>
   </div>
   
@@ -67,7 +69,7 @@ components:{
            let admin= sessionStorage.getItem("isAdmin") //retourne ce quil faut au log
         let userId= sessionStorage.getItem("userId")
         console.log(sessionStorage.getItem("userId"))
-         if (userId===userCom) {
+         if (userId===userCom || admin === 'false') {
            console.log('coucou')
        return this.mode = "user";
       } else if (admin === "true" ||userId===userCom ) {
@@ -92,7 +94,7 @@ components:{
             { headers:{'authorization': token }
           })
          
-         
+         this.$router.push('/poste')
     },
     async supCom(id){
           
