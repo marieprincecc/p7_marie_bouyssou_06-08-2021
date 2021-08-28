@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-              <button class="h4"  v-on:click="firstfunction(data.id,data.userId)">{{data.user.firstname}} {{data.user.lastname}}</button>  
+              <span class="h4"  v-on:click="firstfunction(data.id,data.userId)">{{data.user.firstname}} {{data.user.lastname}}</span>  
             </div>
            
         </div>
@@ -69,7 +69,8 @@ export default {
        sessionStorage.setItem('commentairId',id) 
       let user = sessionStorage.getItem('userId')
       let admin= sessionStorage.getItem('isAdmin')
-      if(admin===true||user===userId){
+      console.log(admin || userId||user)
+      if(admin||user===userId){
         this.$router.push('/poste/commentaire/'+id) 
       }else{
            this.$router.push('/accueil') 
@@ -97,6 +98,9 @@ export default {
 .btn{
     background-color: var(--bs-orange);
 }
-
+.h4{
+    font-style: italic;
+    border-bottom: black 1px solid;
+}
     
 </style>
