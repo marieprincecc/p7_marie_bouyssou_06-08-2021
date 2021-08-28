@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-              <span class="h4"  v-on:click="firstfunction(data.id,data.userId)">{{data.user.firstname}} {{data.user.lastname}}</span>  
+              <span class="h4">{{UserId}} {{data.user.id}}</span>  
             </div>
            
         </div>
@@ -12,9 +12,10 @@
     <div class="row align-items-center">
         <div class="col">
           
-    
-               
-            
+    <span class="btn" @click="firstfunction(data.id)" v-if="mode=='admin'">Modifier/Supprimer</span>
+   
+    <span class="btn" @click="firstfunction(data.id)" v-if="UserId==data.user.id" >Modifier/Supprimer</span>           
+           
         </div>
     </div>
  
@@ -32,52 +33,58 @@ export default {
      data(){
     return{
         commentaires:[],
-       firstname: '',
-      lastname:'',
       content:'',
+      lastname:'',
+      firstname:'',
+      UserId:'',
       id:'',
-       adminUser:'',
-      user: ''
-    }
+     mode:'',
+     result:[],
+        }
      },
+   
 
-    async created(){
+ async created(){
+      
+        let token = sessionStorage.getItem('token')
+        let Id = sessionStorage.getItem('publicationId')
         
-      let token = sessionStorage.getItem('token')
-      let Id = sessionStorage.getItem('publicationId')
-     
       let data= (await axios.get(('http://localhost:3000/api/postecommentaire/'+Id),{ headers:{'authorization': token }}
-        
       ))
-     console.log(data)
-        this.commentaires=data.data,
-      this.content=data.data.content,
-      this.id=data.data.id
-      this.firstname=data.user.firstname
-      this.lastname=data.user.lastname
-     
-      
-      
-    
-     },
-    
+         console.log(data)
 
+        this.commentaires=data.data
+        this.content=data.data.content,
+        this.id=data.data.id
+        this.UserId = sessionStorage.getItem("userId")         
+        
+           let admin= sessionStorage.getItem("isAdmin") //retourne ce quil faut au log
+        
+        console.log(sessionStorage.getItem("userId"))
+        
+    if (admin === "true") {
+       return this.mode = "admin"
+        
+    }
+       
+       
+        
+      
+      
+    },
+    
+   
+   
  methods:{
 
-  firstfunction(id,userId){
+  firstfunction(id){
         
-       sessionStorage.setItem('commentairId',id) 
-      let user = sessionStorage.getItem('userId')
-      let admin= sessionStorage.getItem('isAdmin')
-      console.log(admin || userId||user)
-      if(admin||user===userId){
+        sessionStorage.setItem('commentairId',id)
         this.$router.push('/poste/commentaire/'+id) 
-      }else{
-           this.$router.push('/accueil') 
-      }
+    
       
      },
-     
+    
      
     
 }
@@ -100,7 +107,7 @@ export default {
 }
 .h4{
     font-style: italic;
-    border-bottom: black 1px solid;
+    
 }
     
 </style>

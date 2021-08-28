@@ -17,10 +17,12 @@ components:{
      ensembleCommentaire
      },
      data(){
-
+         
      },
+     
+     }
     
-}
+
 </script>
 
 <style>

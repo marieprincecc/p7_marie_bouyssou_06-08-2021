@@ -9,7 +9,7 @@ const acces = require('../utils/jwt.utils');
 
 exports.createPublication = async (req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -44,7 +44,7 @@ exports.createPublication = async (req, res) => {
 
 exports.getOnePublication = async (req, res, next) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -75,7 +75,7 @@ exports.getOnePublication = async (req, res, next) => {
 
 exports.getAllPublication = (req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -96,7 +96,7 @@ exports.getAllPublication = (req, res) => {
 
 exports.getPublicationProfil = async (req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {

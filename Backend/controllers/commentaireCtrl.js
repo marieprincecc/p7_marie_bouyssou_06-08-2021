@@ -10,7 +10,7 @@ const tokenKey = process.env.SECRET_KEY;
 
 exports.createCommentaire = (req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -53,7 +53,7 @@ exports.createCommentaire = (req, res) => {
 
 exports.modifyCommentaire = async(req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -83,7 +83,7 @@ exports.modifyCommentaire = async(req, res) => {
 
 exports.getAllCommentaire = (req, res, next) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {
@@ -92,7 +92,7 @@ exports.getAllCommentaire = (req, res, next) => {
     include: [
       {
         model: User,
-        attributes: ['lastname', 'firstname'],
+        attributes: ['lastname', 'firstname','id'],
         required: false
       }
     ]
@@ -106,7 +106,7 @@ exports.getAllCommentaire = (req, res, next) => {
 
 exports.getOneCommentaire = async (req, res) => {
   let token = req.headers.authorization
-  if (token === null) {
+  if (!token) {
 
     return res.status(403).json({ message: 'acces refusé' })
   } else {

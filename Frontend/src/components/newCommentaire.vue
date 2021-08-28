@@ -38,26 +38,20 @@ export default {
     return {
       content: "",
       mode: "invisible",
+       userId:'',
     };
   },
 
   methods: {
     afficheCom() {
-      let admin= sessionStorage.getItem('isAdmin')
-      let userId = sessionStorage.getItem('userId')
-       if(userId===this.$userCom || admin === true){
-        this.$adminUser='true'
-      }
-       if(userId=== this.$userCom ){
-        this.$user='true'
-      } 
+     
       if (this.mode == "invisible") {
         this.mode = "visible";
-
+        console.log('visible')
        
       } else if (this.mode == "visible") {
         this.mode = "invisible"
-        
+        console.log('invisible')
       }
     },
     async publierCom() {

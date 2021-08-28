@@ -26,7 +26,7 @@
           <span class="btn" @click="supCom(id)" >Supprimer</span>
     </div>
   </div>
-  
+  <span class="h6" v-else>Vous n'avez pas acces a ces options</span>
   </div>
   
 </template>
@@ -69,13 +69,14 @@ components:{
            let admin= sessionStorage.getItem("isAdmin") //retourne ce quil faut au log
         let userId= sessionStorage.getItem("userId")
         console.log(sessionStorage.getItem("userId"))
-         if (userId===userCom || admin === 'false') {
-           console.log('coucou')
-       return this.mode = "user";
-      } else if (admin === "true" ||userId===userCom ) {
+         if (userId===userCom) {
+       return this.mode="user";
+      } else if (admin === "true") {
        return this.mode = "admin"
         
-      } console.log (this.mode)
+      } else if(userId===userCom &&admin === "true"){
+        return this.mode = "user";
+      }
        
      
     },
