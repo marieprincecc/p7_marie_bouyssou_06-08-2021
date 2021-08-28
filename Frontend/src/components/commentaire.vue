@@ -3,7 +3,7 @@
 <div>
         <div class="row " >
             <div class="col-11">
-                <h5>{{data.user.firstname}} {{data.user.lastname}} </h5>
+              <button class="h4"  v-on:click="firstfunction(data.id,data.userId)">{{data.user.firstname}} {{data.user.lastname}}</button>  
             </div>
            
         </div>
@@ -11,8 +11,7 @@
     </div>
     <div class="row align-items-center">
         <div class="col">
-           <span type='submit' class="btn text-dark" v-on:click="firstfunction(data.id)" v-if="(adminUser)=true"> Modifier/Supprimer
-   </span>
+          
     
                
             
@@ -57,15 +56,7 @@ export default {
       this.firstname=data.user.firstname
       this.lastname=data.user.lastname
      
-        let userCom = data.data.userId
-           let admin= sessionStorage.getItem('isAdmin')
-        let userId= sessionStorage.getItem('userId')
-         if(userId=== userCom || admin === true){
-        this.$adminUser='true'
-      }
-       if(userId=== userCom ){
-        this.$user='true'
-      } 
+      
       
     
      },
@@ -73,10 +64,17 @@ export default {
 
  methods:{
 
-  firstfunction(id){
+  firstfunction(id,userId){
         
        sessionStorage.setItem('commentairId',id) 
-       this.$router.push('/poste/commentaire/'+id) 
+      let user = sessionStorage.getItem('userId')
+      let admin= sessionStorage.getItem('isAdmin')
+      if(admin===true||user===userId){
+        this.$router.push('/poste/commentaire/'+id) 
+      }else{
+           this.$router.push('/accueil') 
+      }
+      
      },
      
      
@@ -99,5 +97,6 @@ export default {
 .btn{
     background-color: var(--bs-orange);
 }
+
     
 </style>

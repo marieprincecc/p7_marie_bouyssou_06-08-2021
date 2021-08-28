@@ -29,6 +29,9 @@ exports.signup = (req, res) => {
 
     } else { res.status(400).json({ message: 'mot de passe invalide (4 - 8 caractère dont minimum 1 nombre)' }) };
 
+    if(req.body.lastname=='' || req.body.firstname==''){
+        res.status(400).json({ message: 'Verifier formulaire!' })
+    }
     let password = req.body.password;
 
     bcrypt.hash(password, 10)
